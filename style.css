@@ -1,0 +1,71 @@
+/* Reset and base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  background: #0a0a0a;
+  color: #0f0;
+  line-height: 1.6;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+h1 {
+  font-size: 3rem;
+  text-shadow: 0 0 10px #0f0;
+}
+
+nav a {
+  color: #0f0;
+  margin: 0 1rem;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+section {
+  margin: 3rem 0;
+}
+
+h2 {
+  color: #0f0;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #0f0;
+  display: inline-block;
+}
+
+ul {
+  list-style: none;
+}
+
+ul li {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+ul li::before {
+  content: ">";
+  position: absolute;
+  left: 0;
+  color: #0f0;
+}
+
+footer {
+  text-align: center;
+  margin-top: 4rem;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
