@@ -14,6 +14,7 @@
       <a href="#about">About</a>
       <a href="#services">Services</a>
       <a href="#contact">Contact</a>
+      <a href="#demos">Demos</a> <!-- Added nav link for new section -->
     </nav>
   </header>
 
@@ -38,10 +39,134 @@
       <p>Reach out: <a href="mailto:yourname@gmail.com">yourname@gmail.com</a></p>
       <!-- Add form later if needed -->
     </section>
+
+    <!-- NEW DEMOS SECTION - PASTED HERE -->
+    <section id="demos" class="demos-section">
+      <h2>What Legion Can Build For You</h2>
+      <p>Interactive demos powered by code — bug fixes, animations, automation, custom tools. Let's make your project unbreakable.</p>
+
+      <!-- Demo 1: Particles / Mouse Trail -->
+      <div class="demo-card">
+        <h3>Interactive Background Effects</h3>
+        <p>Mouse-responsive particles — perfect for engaging landing pages.</p>
+        <div id="particles-demo" class="demo-container">
+          <canvas id="canvas" width="800" height="300"></canvas>
+        </div>
+      </div>
+
+      <!-- Demo 2: 3D Service Cards -->
+      <div class="demo-card">
+        <h3>3D Hover Cards</h3>
+        <p>Showcase services with depth and interactivity.</p>
+        <div class="cards-container">
+          <div class="card">Bug Fixes & Debugging</div>
+          <div class="card">Automation Scripts</div>
+          <div class="card">Tech Consulting</div>
+        </div>
+      </div>
+
+      <!-- Demo 3: Code / Debug Showcase -->
+      <div class="demo-card full-width">
+        <h3>Code Writing & Debugging in Action</h3>
+        <p>Watch a "buggy" function get fixed live (simulated terminal).</p>
+        <div id="terminal-demo" class="terminal"></div>
+      </div>
+
+      <!-- Demo 4: Glitch Text -->
+      <div class="demo-card">
+        <h3>Glitch Effects</h3>
+        <p>Edgy text animations for bold branding.</p>
+        <h1 class="glitch" data-text="We Are Legion">We Are Legion</h1>
+      </div>
+    </section>
   </main>
 
   <footer>
     <p>&copy; 2026 Legion's Lab. We are Legion. 😈</p>
   </footer>
+
+  <!-- JS for Particles Demo -->
+  <script>
+    // Simple mouse-follow particles - vanilla JS, no libs
+    const canvas = document.getElementById('canvas');
+    if (canvas) {
+      canvas.width = 800;
+      canvas.height = 300;
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      const mouse = { x: null, y: null };
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 3 + 1;
+          this.speedX = Math.random() * 1 - 0.5;
+          this.speedY = Math.random() * 1 - 0.5;
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (mouse.x && mouse.y) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 100) {
+              this.x += dx * 0.05;
+              this.y += dy * 0.05;
+            }
+          }
+        }
+        draw() {
+          ctx.fillStyle = '#00ff00'; // Matrix green
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < 100; i++) particles.push(new Particle());
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+      canvas.addEventListener('mousemove', e => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+    }
+  </script>
+
+  <!-- JS for Terminal Typing Effect -->
+  <script>
+    // Simulated code fix terminal - vanilla JS
+    const terminal = document.getElementById('terminal-demo');
+    if (terminal) {
+      const lines = [
+        '> function buggySum(a, b) { return a + b; } // oops, strings concat',
+        '> buggySum(5, "10") // "510"',
+        '> // Legion fixes it...',
+        '> function fixedSum(a, b) { return Number(a) + Number(b); }',
+        '> fixedSum(5, "10") // 15 ✅',
+        '> // Automation, debugging, clean code — delivered.'
+      ];
+
+      let i = 0;
+      function typeLine() {
+        if (i < lines.length) {
+          terminal.innerHTML += lines[i] + '\n';
+          terminal.scrollTop = terminal.scrollHeight;
+          i++;
+          setTimeout(typeLine, 1500);
+        }
+      }
+      setTimeout(typeLine, 1000);
+    }
+  </script>
 </body>
 </html>
