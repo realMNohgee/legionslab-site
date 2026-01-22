@@ -18,6 +18,24 @@ body {
   margin: 0 auto;
 }
 
+/* ensure canvas sits behind content and covers the screen */
+#canvas {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* behind page content */
+  display: block;
+  background: transparent; /* we'll paint black in JS */
+}
+
+/* ensure the demo section content is above the canvas */
+.demos-section {
+  position: relative;
+  z-index: 1;
+}
+
 /* Header & nav - enhanced glow */
 header {
   text-align: center;
