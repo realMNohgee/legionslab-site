@@ -203,17 +203,16 @@
     }
   </script>
 
-  <!-- Double-layer Matrix Drip JS -->
+    <!-- Matrix Drip Sides - wide canvas with fade -->
   <script>
     function matrixDrip(canvasId) {
       const canvas = document.getElementById(canvasId);
       if (canvas) {
-        // Wider inner fill, slim outer visible
-        canvas.width = canvas.classList.contains('matrix-drip-inner') ? 300 : 60;
+        canvas.width = canvas.classList.contains('matrix-drip') ? 400 : 400; // Wide fill
         canvas.height = window.innerHeight;
 
         window.addEventListener('resize', () => {
-          canvas.width = canvas.classList.contains('matrix-drip-inner') ? 300 : 60;
+          canvas.width = 400;
           canvas.height = window.innerHeight;
         });
 
@@ -227,12 +226,13 @@
           ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.fillStyle = '#00ff00';
-          ctx.font = `${fontSize}px 'Courier New'`;
-          drops.forEach((y, x) => {
+          ctx.font = `${fontSize}px monospace`;
+          drops.forEach((y, i) => {
             const text = chars[Math.floor(Math.random() * chars.length)];
-            ctx.fillText(text, x * fontSize, y * fontSize);
-            if (y * fontSize > canvas.height && Math.random() > 0.975) y = 0;
-            drops[x] = y + 1;
+            const x = i * fontSize;
+            ctx.fillText(text, x, y * fontSize);
+            if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
           });
         }
 
@@ -240,11 +240,10 @@
       }
     }
 
-    // Init both layers on each side
-    matrixDrip('matrix-left-outer');
-    matrixDrip('matrix-left-inner');
-    matrixDrip('matrix-right-outer');
-    matrixDrip('matrix-right-inner');
-  </script>
+    matrixDrip('matrix-left');
+    matrixDrip('matrix-right');
+  </script> 
+
+  
 </body>
 </html>
