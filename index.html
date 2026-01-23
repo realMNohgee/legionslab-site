@@ -40,16 +40,13 @@
       <h2>Contact</h2>
       <p>Reach out: <a href="mailto:legion@legionslab.com">legion@legionslab.com</a></p>
     </section>
-
+`
     <section id="demos" class="demos-section">
       <h2>What Legion Can Build For You</h2>
       <p>Interactive demos powered by code — bug fixes, animations, automation, custom tools. Let's make your project unbreakable.</p>
 
-      <!-- Double-layer Matrix Drip (outer slim + inner fill) -->
-      <canvas id="matrix-left-outer" class="matrix-drip-outer"></canvas>
-      <canvas id="matrix-left-inner" class="matrix-drip-inner"></canvas>
-      <canvas id="matrix-right-outer" class="matrix-drip-outer"></canvas>
-      <canvas id="matrix-right-inner" class="matrix-drip-inner"></canvas>
+      <!-- Matrix Drip Left Side -->
+      <canvas id="matrix-left" class="matrix-drip"></canvas>
 
       <!-- Demo 1: Particle Mouse Effect (confined box) -->
       <div class="demo-card">
@@ -71,7 +68,7 @@
         </div>
       </div>
 
-      <!-- Demo 3: Code / Debug Showcase -->
+      <!-- Demo 3: Code / Debug Showcase (longer, looping) -->
       <div class="demo-card full-width">
         <h3>Code Writing & Debugging in Action</h3>
         <p>Watch a "buggy" function get fixed live (simulated terminal).</p>
@@ -94,9 +91,11 @@
         <p>Edgy text animations for bold branding.</p>
         <h1 class="glitch" data-text="We Are Legion">We Are Legion</h1>
       </div>
-    </section>
-  </main>
 
+      <!-- Matrix Drip Right Side -->
+      <canvas id="matrix-right" class="matrix-drip"></canvas>
+    </section>
+        
   <footer>
     <p>&copy; 2026 Legion's Lab. We are Legion. 😈</p>
   </footer>
@@ -203,19 +202,14 @@
     }
   </script>
 
-    <!-- Matrix Drip Sides - wide canvas with fade -->
+   <!-- Matrix Drip Sides -->
   <script>
+    // Matrix code rain - left/right sides, vanilla JS
     function matrixDrip(canvasId) {
       const canvas = document.getElementById(canvasId);
       if (canvas) {
-        canvas.width = canvas.classList.contains('matrix-drip') ? 400 : 400; // Wide fill
+        canvas.width = 400;  // Wide for 28+ lines (fontSize 14px)
         canvas.height = window.innerHeight;
-
-        window.addEventListener('resize', () => {
-          canvas.width = 400;
-          canvas.height = window.innerHeight;
-        });
-
         const ctx = canvas.getContext('2d');
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
         const fontSize = 14;
@@ -226,13 +220,12 @@
           ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.fillStyle = '#00ff00';
-          ctx.font = `${fontSize}px monospace`;
-          drops.forEach((y, i) => {
+          ctx.font = `${fontSize}px 'Courier New'`;
+          drops.forEach((y, x) => {
             const text = chars[Math.floor(Math.random() * chars.length)];
-            const x = i * fontSize;
-            ctx.fillText(text, x, y * fontSize);
-            if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-            drops[i]++;
+            ctx.fillText(text, x * fontSize, y * fontSize);
+            if (y * fontSize > canvas.height && Math.random() > 0.975) y = 0;
+            drops[x] = y + 1;
           });
         }
 
@@ -243,7 +236,6 @@
     matrixDrip('matrix-left');
     matrixDrip('matrix-right');
   </script> 
-
   
 </body>
 </html>

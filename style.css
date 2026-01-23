@@ -257,61 +257,48 @@ footer {
   .glitch { font-size: 2rem; }
 }
 
-/* Matrix Drip Sides - slim columns hugging green border, zero visible void */
+/* Matrix Drip Sides - wide for 28+ lines, tight 5px gap to green border, no bleed */
 .matrix-drip {
   position: fixed;
   top: 0;
-  width: 80px;                    /* Slim but fills void */
+  width: 400px;                   /* Wide for 28+ lines (fontSize 14px) */
   height: 100vh;
   z-index: -1;
   pointer-events: none;
 }
 
-/* Left drip: positioned at edge, fade stops at green border */
 #matrix-left {
   left: 0;
+  right: calc(50% + 450px + 5px); /* Center + half content (450px) + tiny 5px gap */
 }
 
-/* Right drip: mirror */
 #matrix-right {
   right: 0;
+  left: calc(50% + 450px + 5px);  /* Mirror for symmetry */
 }
 
-/* Sharp inner fade - stops drip visually at green border (minimal gap) */
+/* Sharp inner fade for crisp stop at green border (no void) */
 .matrix-drip::after {
   content: "";
   position: absolute;
   top: 0;
   height: 100%;
-  width: 80px;                    /* Fade matches drip width */
+  width: 100px;
   pointer-events: none;
-  background: linear-gradient(to right, #00ff00 0%, #000 10%); /* Green at edge → black in 10px */
-  opacity: 0.95;
+  background: linear-gradient(to right, transparent, #000);
 }
 
 #matrix-left::after {
   right: 0;
-  background: linear-gradient(to right, #00ff00 0%, #000 10%); /* Left fade inward */
-  transform: scaleX(-1);  /* Mirror for left side */
 }
 
 #matrix-right::after {
   left: 0;
-  background: linear-gradient(to right, #00ff00 0%, #000 10%); /* Right fade inward */
+  background: linear-gradient(to left, transparent, #000);
 }
 
-/* Lock font size & prevent blow-up */
-.matrix-drip canvas {
-  font-size: 14px !important;
-}
-
-/* Content box - solid black to block any potential bleed */
-.demos-section,
-.demo-card,
-.terminal-wrapper,
-main,
-header,
-footer {
+/* Solid black on content to block drip bleed */
+.demos-section, .demo-card, .terminal-wrapper, main, header, footer {
   position: relative;
   z-index: 1;
   background: #000 !important;
