@@ -257,21 +257,51 @@ footer {
   .glitch { font-size: 2rem; }
 }
 
-/* Matrix Drip Sides */
-.matrix-drip {
+/* Double-layer Matrix Drip - offset inner to fill gap */
+.matrix-drip-outer, .matrix-drip-inner {
   position: fixed;
   top: 0;
-  width: 100px;
-  height: 100vh;
-  z-index: -1;  /* Behind content */
+  height: 200vh;
+  z-index: -1;
+  pointer-events: none;
 }
 
-#matrix-left {
-  left: 0;
+.matrix-drip-outer {
+  width: 120px;                    /* Visible slim drip on top */
+  opacity: 1;
 }
 
-#matrix-right {
+.matrix-drip-inner {
+  width: 600px;                   /* Wider fill layer underneath */
+  opacity: 0.5;                   /* Faded so outer shows through */
+}
+
+/* Left side - inner offset rightward to fill gap */
+#matrix-left-outer  { left: 0; }
+#matrix-left-inner  { left: 120px; }  /* Starts where outer ends, extends further right */
+
+/* Right side - inner offset leftward to fill gap */
+#matrix-right-outer { right: 0; }
+#matrix-right-inner { right: 1200px; } /* Starts where outer ends, extends further left */
+
+/* Inner fade on fill layer for smooth stop at green border */
+.matrix-drip-inner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 400px;
+  height: 400%;
+  pointer-events: none;
+}
+
+#matrix-left-inner::after {
   right: 0;
+  background: linear-gradient(to right, transparent, rgba(0,0,0,1));
+}
+
+#matrix-right-inner::after {
+  left: 0;
+  background: linear-gradient(to left, transparent, rgba(0,0,0,1));
 }
 
 /* Particle Demo Window */
