@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Legion's Lab | Code Fixes & Consulting</title>
-  <meta name="description" content="Freelance Python, JavaScript, Ruby developer & ex-construction owner. Bug fixes, automation scripts, consulting with real-world grit.">
+  <title>Legion's Lab | Professional IT Problem Solvers</title>
+  <meta name="description" content="We fix bugs, write code, build websites, secure systems, automate workflows, and consult on all IT needs. You got problems, we got solutions.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,23 +14,25 @@
       <a href="#about">About</a>
       <a href="#services">Services</a>
       <a href="#contact">Contact</a>
-      <a href="#demos">Demos</a> <!-- Added nav link for new section -->
+      <a href="#demos">Demos</a>
     </nav>
   </header>
 
   <main>
     <section id="about">
       <h2>About Legion</h2>
-      <p>From running a construction company to multiplying solutions in code. 15+ years of problem-solving grit meets Python, JavaScript, Ruby.</p>
-      <p>Let's fix your bugs, automate your workflows, or consult on ops/bids.</p>
+      <p>Professional IT problem solvers. We debug and write code in any language you prefer, build secure websites, offer web dev and cybersecurity consulting, handle full company cyber contracts, automate scripts, design sites, and deliver whatever you need. You got problems, we got your solutions.</p>
     </section>
 
     <section id="services">
       <h2>Services</h2>
       <ul>
-        <li>Bug fixes & debugging (JS, Python, Ruby)</li>
+        <li>Bug fixes & debugging (any language)</li>
         <li>Automation scripts & tools</li>
-        <li>Construction-to-tech consulting</li>
+        <li>Web development & design</li>
+        <li>Cybersecurity consulting & company-wide contracts</li>
+        <li>Site security & optimization</li>
+        <li>IT consulting for ops, bids, and more — we offer it all</li>
       </ul>
     </section>
 
@@ -40,17 +42,19 @@
       <!-- Add form later if needed -->
     </section>
 
-    <!-- NEW DEMOS SECTION - PASTED HERE -->
     <section id="demos" class="demos-section">
       <h2>What Legion Can Build For You</h2>
       <p>Interactive demos powered by code — bug fixes, animations, automation, custom tools. Let's make your project unbreakable.</p>
 
-      <!-- Demo 1: Particles / Mouse Trail -->
+      <!-- Matrix Drip Left Side -->
+      <canvas id="matrix-left" class="matrix-drip"></canvas>
+
+      <!-- Demo 1: Particle Mouse Effect (confined to window) -->
       <div class="demo-card">
         <h3>Interactive Background Effects</h3>
         <p>Mouse-responsive particles — perfect for engaging landing pages.</p>
         <div id="particles-demo" class="demo-container">
-          <canvas id="canvas" width="800" height="300"></canvas>
+          <canvas id="particles-canvas"></canvas>
         </div>
       </div>
 
@@ -65,11 +69,21 @@
         </div>
       </div>
 
-      <!-- Demo 3: Code / Debug Showcase -->
+      <!-- Demo 3: Code / Debug Showcase (longer, looping) -->
       <div class="demo-card full-width">
         <h3>Code Writing & Debugging in Action</h3>
         <p>Watch a "buggy" function get fixed live (simulated terminal).</p>
-        <div id="terminal-demo" class="terminal"></div>
+        <div class="terminal-wrapper">
+          <div class="terminal-bar">
+            <div class="terminal-buttons">
+              <div class="terminal-button"></div>
+              <div class="terminal-button"></div>
+              <div class="terminal-button"></div>
+            </div>
+            <span class="terminal-title">Legion's Debug Terminal - Python Mode</span>
+          </div>
+          <div id="terminal-demo" class="terminal"></div>
+        </div>
       </div>
 
       <!-- Demo 4: Glitch Text -->
@@ -78,6 +92,9 @@
         <p>Edgy text animations for bold branding.</p>
         <h1 class="glitch" data-text="We Are Legion">We Are Legion</h1>
       </div>
+
+      <!-- Matrix Drip Right Side -->
+      <canvas id="matrix-right" class="matrix-drip"></canvas>
     </section>
   </main>
 
@@ -85,21 +102,21 @@
     <p>&copy; 2026 Legion's Lab. We are Legion. 😈</p>
   </footer>
 
-  <!-- JS for Particles Demo -->
+  <!-- JS for Particle Demo (confined to window) -->
   <script>
-    // Simple mouse-follow particles - vanilla JS, no libs
-    const canvas = document.getElementById('canvas');
-    if (canvas) {
-      canvas.width = 800;
-      canvas.height = 300;
-      const ctx = canvas.getContext('2d');
+    // Mouse-follow particles - confined to demo canvas
+    const particlesCanvas = document.getElementById('particles-canvas');
+    if (particlesCanvas) {
+      particlesCanvas.width = 600;  // Confined size
+      particlesCanvas.height = 300;
+      const ctx = particlesCanvas.getContext('2d');
       let particles = [];
       const mouse = { x: null, y: null };
 
       class Particle {
         constructor() {
-          this.x = Math.random() * canvas.width;
-          this.y = Math.random() * canvas.height;
+          this.x = Math.random() * particlesCanvas.width;
+          this.y = Math.random() * particlesCanvas.height;
           this.size = Math.random() * 3 + 1;
           this.speedX = Math.random() * 1 - 0.5;
           this.speedY = Math.random() * 1 - 0.5;
@@ -116,9 +133,14 @@
               this.y += dy * 0.05;
             }
           }
+          // Wrap around edges
+          if (this.x < 0) this.x = particlesCanvas.width;
+          if (this.x > particlesCanvas.width) this.x = 0;
+          if (this.y < 0) this.y = particlesCanvas.height;
+          if (this.y > particlesCanvas.height) this.y = 0;
         }
         draw() {
-          ctx.fillStyle = '#00ff00'; // Matrix green
+          ctx.fillStyle = '#00ff00';
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
           ctx.fill();
@@ -128,45 +150,96 @@
       for (let i = 0; i < 100; i++) particles.push(new Particle());
 
       function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';  // Trailing fade
+        ctx.fillRect(0, 0, particlesCanvas.width, particlesCanvas.height);
         particles.forEach(p => { p.update(); p.draw(); });
         requestAnimationFrame(animate);
       }
       animate();
 
-      canvas.addEventListener('mousemove', e => {
-        const rect = canvas.getBoundingClientRect();
+      particlesCanvas.addEventListener('mousemove', e => {
+        const rect = particlesCanvas.getBoundingClientRect();
         mouse.x = e.clientX - rect.left;
         mouse.y = e.clientY - rect.top;
       });
     }
   </script>
 
-  <!-- JS for Terminal Typing Effect -->
+  <!-- JS for Terminal Typing Effect (longer, looping) -->
   <script>
-    // Simulated code fix terminal - vanilla JS
+    // Simulated code fix terminal - longer lines, loop
     const terminal = document.getElementById('terminal-demo');
     if (terminal) {
       const lines = [
-        '> function buggySum(a, b) { return a + b; } // oops, strings concat',
-        '> buggySum(5, "10") // "510"',
-        '> // Legion fixes it...',
-        '> function fixedSum(a, b) { return Number(a) + Number(b); }',
-        '> fixedSum(5, "10") // 15 ✅',
-        '> // Automation, debugging, clean code — delivered.'
+        '> # Buggy Python script example',
+        '> def buggy_sum(a, b):',
+        '>   return a + b  # Oops, concatenates strings',
+        '> print(buggy_sum(5, "10"))  # "510"',
+        '> # Legion debugs...',
+        '> def fixed_sum(a, b):',
+        '>   return float(a) + float(b)  # Convert to numbers',
+        '> print(fixed_sum(5, "10"))  # 15.0 ✅',
+        '> # We automate workflows too',
+        '> import requests',
+        '> def auto_fetch_data(url):',
+        '>   response = requests.get(url)',
+        '>   if response.status_code == 200:',
+        '>     return response.json()',
+        '>   else:',
+        '>     raise ValueError("API error")',
+        '> data = auto_fetch_data("https://api.example.com")  # Sample automation',
+        '> # Cyber consulting: secure your site',
+        '> from cryptography.fernet import Fernet',
+        '> key = Fernet.generate_key()  # Encryption demo',
+        '> cipher = Fernet(key)',
+        '> encrypted = cipher.encrypt(b"Secret data")  # Secure it',
+        '> # We offer it all — problems solved'
       ];
 
       let i = 0;
       function typeLine() {
-        if (i < lines.length) {
-          terminal.innerHTML += lines[i] + '\n';
-          terminal.scrollTop = terminal.scrollHeight;
-          i++;
-          setTimeout(typeLine, 1500);
-        }
+        terminal.innerHTML += lines[i] + '\n';
+        terminal.scrollTop = terminal.scrollHeight;
+        i = (i + 1) % lines.length;  // Loop back to start
+        setTimeout(typeLine, 1000);   // Slower pace for longer content
       }
-      setTimeout(typeLine, 1000);
+      typeLine();  // Start immediately
     }
+  </script>
+
+  <!-- JS for Matrix Drip Sides -->
+  <script>
+    // Matrix code rain - left/right sides, vanilla JS
+    function matrixDrip(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      if (canvas) {
+        canvas.width = 100;  // Slim width for sides
+        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext('2d');
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array.from({length: columns}, () => Math.random() * canvas.height / fontSize);
+
+        function draw() {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';  // Fade trail
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = '#00ff00';
+          ctx.font = `${fontSize}px 'Courier New'`;
+          drops.forEach((y, x) => {
+            const text = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillText(text, x * fontSize, y * fontSize);
+            if (y * fontSize > canvas.height && Math.random() > 0.975) y = 0;
+            drops[x] = y + 1;
+          });
+        }
+
+        setInterval(draw, 50);
+      }
+    }
+
+    matrixDrip('matrix-left');
+    matrixDrip('matrix-right');
   </script>
 </body>
 </html>

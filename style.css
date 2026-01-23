@@ -256,3 +256,51 @@ footer {
   .card { width: 90%; max-width: 300px; }
   .glitch { font-size: 2rem; }
 }
+
+/* Matrix Drip Sides */
+.matrix-drip {
+  position: fixed;
+  top: 0;
+  width: 100px;
+  height: 100vh;
+  z-index: -1;  /* Behind content */
+}
+
+#matrix-left {
+  left: 0;
+}
+
+#matrix-right {
+  right: 0;
+}
+
+/* Particle Demo Window */
+#particles-demo {
+  position: relative;
+  width: 600px;
+  height: 300px;
+  overflow: hidden;  /* Confine particles */
+  border: 1px solid #004d00;
+  border-radius: 8px;
+  margin: 1rem auto;
+}
+
+#particles-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #000;  /* Black background inside window */
+}
+
+/* Terminal Wrapper (already there, but ensure) */
+.terminal-wrapper {
+  background: #111;
+  border: 1px solid #004d00;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Other styles as before... */
