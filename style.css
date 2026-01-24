@@ -33,7 +33,42 @@ body {
 /* ensure the demo section content is above the canvas */
 .demos-section {
   position: relative;
-  z-index: 1;
+  z-index: 3;
+  background: #000 !important;
+  border: 1px solid #00ff00;
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 1rem auto;
+  max-width: 900px;
+  box-shadow: 0 0 15px rgba(0,255,0,0.2);
+}
+
+/* Content box - fully opaque black to block drip fade bleed */
+header,
+footer,
+main,
+.demos-section,
+.demo-card,
+.terminal-wrapper {
+  position: relative;
+  z-index: 30;                    /* Way above drip (-1) + fade */
+  background: #000 !important;    /* Fully opaque black - no transparency leak */
+  border: 1px solid #00ff00;
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 1rem auto;
+  max-width: 900px;
+  box-shadow: 0 0 15px rgba(0,255,0,0.2);
+}
+
+/* Force opacity 1 on borders/text to prevent fade-through */
+h1, h2, h3, p, li, a, .card, .terminal {
+  opacity: 1 !important;
+}
+
+/* Optional: stronger border glow for crisp look */
+header, footer, main {
+  border: 1px solid #00ff00;
 }
 
 /* Header & nav - enhanced glow */
@@ -85,6 +120,7 @@ main {
   border: 1px solid #004d00;        /* Dark green edge */
   border-radius: 8px;
   box-shadow: 0 0 20px rgba(0, 255, 65, 0.1); /* Outer glow */
+  overflow: hidden;
 }
 
 ul {
@@ -257,11 +293,11 @@ footer {
   .glitch { font-size: 2rem; }
 }
 
-/* Matrix Drip Sides - wide for 28+ lines, tight 5px gap to green border, no bleed */
+/* Matrix Drip Sides - tightened for closer framing */
 .matrix-drip {
   position: fixed;
   top: 0;
-  width: 400px;                   /* Wide for 28+ lines (fontSize 14px) */
+  width: 500px;                   /* Wider = more lines (~35 lines) */
   height: 100vh;
   z-index: -1;
   pointer-events: none;
@@ -269,23 +305,28 @@ footer {
 
 #matrix-left {
   left: 0;
-  right: calc(50% + 450px + 5px); /* Center + half content (450px) + tiny 5px gap */
 }
 
 #matrix-right {
   right: 0;
-  left: calc(50% + 450px + 5px);  /* Mirror for symmetry */
 }
 
-/* Sharp inner fade for crisp stop at green border (no void) */
-.matrix-drip::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100px;
-  pointer-events: none;
-  background: linear-gradient(to right, transparent, #000);
+/* Content box - solid black, high z-index to cut drip cleanly */
+.demos-section,
+.demo-card,
+.terminal-wrapper,
+main,
+header,
+footer {
+  position: relative;
+  z-index: 10;
+  background: #000 !important;
+  border: 1px solid #00ff00;
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 1rem auto;
+  max-width: 900px;
+  box-shadow: 0 0 15px rgba(0,255,0,0.2);
 }
 
 #matrix-left::after {
@@ -294,20 +335,7 @@ footer {
 
 #matrix-right::after {
   left: 0;
-  background: linear-gradient(to left, transparent, #000);
-}
-
-/* Solid black on content to block drip bleed */
-.demos-section, .demo-card, .terminal-wrapper, main, header, footer {
-  position: relative;
-  z-index: 1;
-  background: #000 !important;
-  border: 1px solid #00ff00;
-  border-radius: 8px;
-  padding: 2rem;
-  margin: 1rem auto;
-  max-width: 900px;
-  box-shadow: 0 0 15px rgba(0,255,0,0.2);
+  background: linear-gradient(to left, transparent, rgba(0,0,0,0.8));
 }
 
 /* Particle Demo Window */
@@ -340,3 +368,9 @@ footer {
 }
 
 /* Other styles as before... */
+/* Responsive Matrix drip - shrink on mobile */
+@media (max-width: 768px) {
+  .matrix-drip {
+    width: 200px;  /* Slimmer for small screens */
+  }
+}
