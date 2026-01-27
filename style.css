@@ -413,3 +413,37 @@ footer {
   height: 100%;
   z-index: -1;
 }
+
+.case-study {
+  background: #0a0a0a;
+  border: 1px solid #004d00;
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+}
+
+.case-study h3 {
+  color: #00ff41;
+  margin-bottom: 1rem;
+}
+
+.case-study p {
+  margin: 0.5rem 0;
+}
+
+/* Lego & Crumble Demos */
+#lego-canvas, #crumble-canvas {
+  border: 1px solid #004d00;
+  border-radius: 8px;
+  background: #000;
+  margin-top: 1rem;
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+}
+
+#lego-input, #crumble-input {
+  margin-bottom: 1rem;
+}
