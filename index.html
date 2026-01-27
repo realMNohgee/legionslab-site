@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,15 +8,15 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Intro Pill Choice Screen with drip -->
   <div class="intro-screen" id="intro-screen">
-  <canvas id="intro-matrix-bg"></canvas> <!-- Matrix drip for intro -->
-  <h1 class="intro-title">Choose Wisely, Legion</h1>
-  <div class="intro-buttons">
-    <button id="red-pill" class="pill-button">Red Pill</button>
-    <button id="blue-pill" class="pill-button">Blue Pill</button>
+    <canvas id="intro-matrix-bg"></canvas> <!-- Drip confined to intro -->
+    <h1 class="intro-title">Choose Wisely, Legion</h1>
+    <div class="intro-buttons">
+      <button id="red-pill" class="pill-button">Red Pill</button>
+      <button id="blue-pill" class="pill-button">Blue Pill</button>
+    </div>
   </div>
-</div>
-  <canvas id="matrix-bg"></canvas> <!-- Full-screen Matrix drip background -->
 
   <header>
     <h1>Legion's Lab</h1>
@@ -47,246 +46,131 @@
       </ul>
     </section>
 
-    <section id="case-studies">
-  <h2>Real Results Delivered</h2>
-
-  <!-- Case Study 1 -->
-  <div class="case-study">
-    <h3>Web Dev Overhaul for Startup</h3>
-    <p>Problem: Slow site with 5s load times, losing 40% users.</p>
-    <p>My Role: Rebuilt in Next.js, optimized images, added CDN.</p>
-    <p>Tech: Next.js, Vercel, Sharp for images.</p>
-    <p>Impact: Load time to 1s, bounce rate down 30%, revenue up $20k/month.</p>
-    <p>Quote: "Legion turned our site from drag to rocket." – Founder</p>
-  </div>
-
-  <!-- Case Study 2 -->
-  <div class="case-study">
-    <h3>Cyber Contract for Enterprise</h3>
-    <p>Problem: No WAF, exposed to 100+ daily attacks.</p>
-    <p>My Role: Set up Cloudflare WAF, custom rules, automated scans.</p>
-    <p>Tech: Cloudflare, OWASP, Nessus.</p>
-    <p>Impact: Blocked 99% attacks, saved $100k in potential breaches.</p>
-    <p>Quote: "Legion is our cyber shield." – CTO</p>
-  </div>
-
-  <!-- Add 2–3 more fake/real ones -->
-</section>
-
     <section id="contact">
       <h2>Contact</h2>
       <p>Reach out: <a href="mailto:legion@legionslab.com">legion@legionslab.com</a></p>
     </section>
 
-   <section id="demos" class="demos-section">
-  <h2>What Legion Can Build For You</h2>
-  <p>Interactive demos powered by code — bug fixes, animations, automation, custom tools. Let's make your project unbreakable.</p>
+    <section id="demos" class="demos-section">
+      <h2>What Legion Can Build For You</h2>
+      <p>Interactive demos powered by code — bug fixes, animations, automation, custom tools. Let's make your project unbreakable.</p>
 
-  <!-- Double-layer Matrix Drip (outer slim + inner fill) -->
-  <canvas id="matrix-left-outer" class="matrix-drip-outer"></canvas>
-  <canvas id="matrix-left-inner" class="matrix-drip-inner"></canvas>
-  <canvas id="matrix-right-outer" class="matrix-drip-outer"></canvas>
-  <canvas id="matrix-right-inner" class="matrix-drip-inner"></canvas>
-
-  <!-- Demo 1: Particle Mouse Effect (confined box) -->
-  <div class="demo-card">
-    <h3>Interactive Mouse Particles</h3>
-    <p>Confined mouse-responsive particles — add flair to any section.</p>
-    <div id="particles-demo" class="demo-container">
-      <canvas id="particles-canvas"></canvas>
-    </div>
-  </div>
-
-  <!-- Demo 2: 3D Hover Cards -->
-  <div class="demo-card">
-    <h3>3D Hover Cards</h3>
-    <p>Showcase services with depth and interactivity.</p>
-    <div class="cards-container">
-      <div class="card">Bug Fixes & Debugging</div>
-      <div class="card">Automation Scripts</div>
-      <div class="card">Tech Consulting</div>
-    </div>
-  </div>
-
-  <!-- Demo 3: Code / Debug Showcase -->
-  <div class="demo-card full-width">
-    <h3>Code Writing & Debugging in Action</h3>
-    <p>Watch a "buggy" function get fixed live (simulated terminal).</p>
-    <div class="terminal-wrapper">
-      <div class="terminal-bar">
-        <div class="terminal-buttons">
-          <div class="terminal-button"></div>
-          <div class="terminal-button"></div>
-          <div class="terminal-button"></div>
+      <!-- Demo 1: Particle Mouse Effect -->
+      <div class="demo-card">
+        <h3>Interactive Mouse Particles</h3>
+        <p>Confined mouse-responsive particles — add flair to any section.</p>
+        <div id="particles-demo" class="demo-container">
+          <canvas id="particles-canvas"></canvas>
         </div>
-        <span class="terminal-title">Legion's Debug Terminal - Python Mode</span>
       </div>
-      <div id="terminal-demo" class="terminal"></div>
-    </div>
-  </div>
 
-  <!-- Demo 4: Glitch Text -->
-  <div class="demo-card">
-    <h3>Glitch Effects</h3>
-    <p>Edgy text animations for bold branding.</p>
-    <h1 class="glitch" data-text="We Are Legion">We Are Legion</h1>
-  </div>
+      <!-- Demo 2: 3D Hover Cards -->
+      <div class="demo-card">
+        <h3>3D Hover Cards</h3>
+        <p>Showcase services with depth and interactivity.</p>
+        <div class="cards-container">
+          <div class="card">Bug Fixes & Debugging</div>
+          <div class="card">Automation Scripts</div>
+          <div class="card">Tech Consulting</div>
+        </div>
+      </div>
 
-  <!-- Demo 5: Lego-fy Image -->
-<div class="demo-card full-width">
-  <h3>Lego-fy Your Photo</h3>
-  <p>Upload an image to "Lego-fy" it (pixelate to Lego blocks).</p>
-  <input type="file" id="lego-input" accept="image/*">
-  <canvas id="lego-canvas" width="600" height="400"></canvas>
-</div>
+      <!-- Demo 3: Code / Debug Showcase -->
+      <div class="demo-card full-width">
+        <h3>Code Writing & Debugging in Action</h3>
+        <p>Watch a "buggy" function get fixed live (simulated terminal).</p>
+        <div class="terminal-wrapper">
+          <div class="terminal-bar">
+            <div class="terminal-buttons">
+              <div class="terminal-button"></div>
+              <div class="terminal-button"></div>
+              <div class="terminal-button"></div>
+            </div>
+            <span class="terminal-title">Legion's Debug Terminal - Python Mode</span>
+          </div>
+          <div id="terminal-demo" class="terminal"></div>
+        </div>
+      </div>
 
-<!-- Demo 6: Crumble Photo -->
-<div class="demo-card full-width">
-  <h3>Crumb le Photo</h3>
-  <p>Upload a photo to crumble it into bouncing pieces.</p>
-  <input type="file" id="crumble-input" accept="image/*">
-  <canvas id="crumble-canvas" width="600" height="400"></canvas>
-</div>
+      <!-- Demo 4: Glitch Text -->
+      <div class="demo-card">
+        <h3>Glitch Effects</h3>
+        <p>Edgy text animations for bold branding.</p>
+        <h1 class="glitch" data-text="We Are Legion">We Are Legion</h1>
+      </div>
 
-<!-- Lego-fy Image Demo -->
-<script>
-  const legoInput = document.getElementById('lego-input');
-  const legoCanvas = document.getElementById('lego-canvas');
-  const legoCtx = legoCanvas.getContext('2d');
+      <!-- Demo 5: Lego-ify Image (random meme) -->
+      <div class="demo-card full-width">
+        <h3>Lego-ify Image</h3>
+        <p>Watch a random meme turn into Lego bricks.</p>
+        <button id="lego-button">Lego-ify Random Meme</button>
+        <canvas id="lego-canvas" class="lego-canvas"></canvas>
+      </div>
 
-  legoInput.addEventListener('change', (e) => {
-    const img = new Image();
-    img.onload = () => {
-      legoCanvas.width = img.width;
-      legoCanvas.height = img.height;
-      legoCtx.drawImage(img, 0, 0);
-      const data = legoCtx.getImageData(0, 0, img.width, img.height);
-      legoCtx.clearRect(0, 0, img.width, img.height);
-
-      const blockSize = 10;  // Lego block size (industry std pixelation)
-      for (let y = 0; y < img.height; y += blockSize) {
-        for (let x = 0; x = img.width; x += blockSize) {
-          const i = (y * data.width + x) * 4;
-          const r = data.data[i];
-          const g = data.data[i + 1];
-          const b = data.data[i + 2];
-          legoCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-          legoCtx.fillRect(x, y, blockSize, blockSize);
-          legoCtx.fillStyle = '#333';  // Lego stud shadow
-          legoCtx.fillRect(x + blockSize * 0.8, y + blockSize * 0.8, blockSize * 0.2, blockSize * 0.2);
-        }
-      }
-    };
-    img.src = URL.createObjectURL(e.target.files[0]);
-  });
-</script>
-
-<!-- Crumble Photo Demo -->
-<script>
-  const crumbleInput = document.getElementById('crumble-input');
-  const crumbleCanvas = document.getElementById('crumble-canvas');
-  const crumbleCtx = crumbleCanvas.getContext('2d');
-
-  crumbleInput.addEventListener('change', (e) => {
-    const img = new Image();
-    img.onload = () => {
-      crumbleCanvas.width = img.width;
-      crumbleCanvas.height = img.height;
-      crumbleCtx.drawImage(img, 0, 0);
-      const data = crumbleCtx.getImageData(0, 0, img.width, img.height);
-      crumbleCtx.clearRect(0, 0, img.width, img.height);
-
-      const pieceSize = 10;  // Crumble piece size
-      let pieces = [];
-      for (let y = 0; y < img.height; y += pieceSize) {
-        for (let x = 0; x = img.width; x += pieceSize) {
-          pieces.push({
-            x, y,
-            dx: Math.random() * 4 - 2,  // Bounce velocity
-            dy: Math.random() * 4 - 2,
-            rotation: Math.random() * 360,
-            dr: Math.random() * 4 - 2,  // Rotation speed
-            gravity: 0.1,
-            imageData: ctx.getImageData(x, y, pieceSize, pieceSize)
-          });
-        }
-      }
-
-      function animate() {
-        crumbleCtx.clearRect(0, 0, crumbleCanvas.width, crumbleCanvas.height);
-        pieces.forEach(p => {
-          p.dy += p.gravity;
-          p.x += p.dx;
-          p.y += p.dy;
-          p.rotation += p.dr;
-
-          if (p.y > crumbleCanvas.height - pieceSize) {
-            p.y = crumbleCanvas.height - pieceSize;
-            p.dy *= -0.8;  // Bounce
-            p.dx *= 0.9;   // Friction
-            p.dr *= 0.8;
-          }
-
-          crumbleCtx.save();
-          crumbleCtx.translate(p.x + pieceSize / 2, p.y + pieceSize / 2);
-          crumbleCtx.rotate(p.rotation * Math.PI / 180);
-          crumbleCtx.putImageData(p.imageData, -pieceSize / 2, -pieceSize / 2);
-          crumbleCtx.restore();
-        });
-        requestAnimationFrame(animate);
-      }
-      animate();
-    };
-    img.src = URL.createObjectURL(e.target.files[0]);
-  });
-</script>
-
-</section>
+      <!-- Demo 6: Grid Fall Apart (random meme) -->
+      <div class="demo-card full-width">
+        <h3>Grid Fall Apart</h3>
+        <p>Watch a random meme shatter and bounce apart.</p>
+        <button id="crumble-button">Crumble Random Meme</button>
+        <canvas id="crumble-canvas" class="crumble-canvas"></canvas>
+      </div>
+    </section>
   </main>
 
   <footer>
     <p>&copy; 2026 Legion's Lab. We are Legion. 😈</p>
   </footer>
 
-  <!-- JS for Full-screen Matrix particle rain background -->
+  <!-- JS for Intro Pill Choice + Intro Drip -->
   <script>
-    const matrixCanvas = document.getElementById('matrix-bg');
-    if (matrixCanvas) {
-      matrixCanvas.width = window.innerWidth;
-      matrixCanvas.height = window.innerHeight;
+    const introScreen = document.getElementById('intro-screen');
+    const redPill = document.getElementById('red-pill');
+    const bluePill = document.getElementById('blue-pill');
 
-      window.addEventListener('resize', () => {
-        matrixCanvas.width = window.innerWidth;
-        matrixCanvas.height = window.innerHeight;
-      });
+    redPill.addEventListener('click', () => {
+      window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';  // Rickroll
+    });
 
-      const ctx = matrixCanvas.getContext('2d');
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
-      const fontSize = 14;
-      let columns = Math.floor(matrixCanvas.width / fontSize);
-      let drops = Array.from({length: columns}, () => Math.random() * matrixCanvas.height / fontSize);
+    bluePill.addEventListener('click', () => {
+      introScreen.classList.add('hidden');
+      setTimeout(() => { introScreen.style.display = 'none'; }, 1000);
+    });
 
-      function draw() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+    // Intro Matrix drip (confined to intro screen)
+    function introDrip() {
+      const canvas = document.getElementById('intro-matrix-bg');
+      if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-        ctx.fillStyle = '#00ff00';
-        ctx.font = fontSize + 'px monospace';
-
-        drops.forEach((y, i) => {
-          const text = chars[Math.floor(Math.random() * chars.length)];
-          const x = i * fontSize;
-          ctx.fillText(text, x, y * fontSize);
-
-          if (y * fontSize > matrixCanvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-          }
-          drops[i]++;
+        window.addEventListener('resize', () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
         });
-      }
 
-      setInterval(draw, 50);
+        const ctx = canvas.getContext('2d');
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
+        const fontSize = 14;
+        const columns = Math.floor(canvas.width / fontSize);
+        const drops = Array.from({length: columns}, () => Math.random() * canvas.height / fontSize);
+
+        function draw() {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = '#00ff00';
+          ctx.font = `${fontSize}px 'Courier New'`;
+          drops.forEach((y, x) => {
+            const text = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillText(text, x * fontSize, y * fontSize);
+            if (y * fontSize > canvas.height && Math.random() > 0.975) y = 0;
+            drops[x] = y + 1;
+          });
+        }
+
+        setInterval(draw, 50);
+      }
     }
+    introDrip();
   </script>
 
   <!-- JS for Particle Demo (confined to box) -->
@@ -298,6 +182,7 @@
         particlesCanvas.width = rect.width;
         particlesCanvas.height = rect.height;
       }
+
       window.addEventListener('resize', resizeParticles);
       resizeParticles();
 
@@ -343,6 +228,7 @@
         const count = Math.floor(particlesCanvas.width * particlesCanvas.height / 3000); // Density control
         for (let i = 0; i < count; i++) particles.push(new Particle());
       }
+
       initParticles();
       window.addEventListener('resize', initParticles);
 
@@ -403,103 +289,147 @@
     }
   </script>
 
-  <!-- Matrix Drip Sides - full-height on load/resize/scroll -->
-<script>
-  function matrixDrip(canvasId) {
-    const canvas = document.getElementById(canvasId);
-    if (canvas) {
-      // Force full size on load
-      function resizeDrip() {
-        canvas.width = 120;  // Wide to fill void
-        canvas.height = Math.max(document.body.scrollHeight, window.innerHeight);
+  <!-- Lego-ify & Grid Crumble Demos (random memes, no upload) -->
+  <script>
+    // Lego-ify random meme
+    const legoButton = document.getElementById('lego-button');
+    const legoCanvas = document.getElementById('lego-canvas');
+    if (legoButton && legoCanvas) {
+      const ctx = legoCanvas.getContext('2d');
+      legoCanvas.width = 600;
+      legoCanvas.height = 400;
+
+      const memes = [
+        'https://i.imgflip.com/1bij.jpg', // Success Kid
+        'https://i.imgflip.com/1ur9b0.jpg', // Distracted Boyfriend
+        'https://i.imgflip.com/1g8my4.jpg' // This is Fine
+      ];
+
+      function legoify() {
+        const randomMeme = memes[Math.floor(Math.random() * memes.length)];
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0, legoCanvas.width, legoCanvas.height);
+          const brickSize = 20;
+          for (let y = 0; y < legoCanvas.height; y += brickSize) {
+            for (let x = 0; x < legoCanvas.width; x += brickSize) {
+              const data = ctx.getImageData(x, y, brickSize, brickSize).data;
+              let r = 0, g = 0, b = 0;
+              for (let i = 0; i < data.length; i += 4) {
+                r += data[i];
+                g += data[i+1];
+                b += data[i+2];
+              }
+              r = Math.round(r / (data.length/4));
+              g = Math.round(g / (data.length/4));
+              b = Math.round(b / (data.length/4));
+
+              ctx.fillStyle = `rgb(${r},${g},${b})`;
+              ctx.fillRect(x, y, brickSize, brickSize);
+
+              ctx.fillStyle = 'rgba(0,0,0,0.3)';
+              ctx.fillRect(x, y + brickSize - 4, brickSize, 4);
+              ctx.fillStyle = 'rgba(255,255,255,0.2)';
+              ctx.fillRect(x + 2, y + 2, brickSize - 4, 4);
+            }
+          }
+        };
+        img.src = randomMeme;
       }
 
-      // Run on load, resize, scroll
-        window.addEventListener('load', resizeDrip);
-        window.addEventListener('resize', resizeDrip);
-        window.addEventListener('scroll', resizeDrip, { passive: true });
+      legoButton.addEventListener('click', legoify);
+      legoify(); // Auto-load first meme
+    }
 
-        resizeDrip();  // Initial call
+    // Grid Crumble random meme
+    const crumbleButton = document.getElementById('crumble-button');
+    const crumbleCanvas = document.getElementById('crumble-canvas');
+    if (crumbleButton && crumbleCanvas) {
+      const ctx = crumbleCanvas.getContext('2d');
+      crumbleCanvas.width = 600;
+      crumbleCanvas.height = 400;
 
-        const ctx = canvas.getContext('2d');
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
-        const fontSize = 14;
-        let columns = Math.floor(canvas.width / fontSize);
-        let drops = Array.from({length: columns}, () => Math.random() * canvas.height / fontSize);
+      const memes = [
+        'https://i.imgflip.com/1bij.jpg',
+        'https://i.imgflip.com/1ur9b0.jpg',
+        'https://i.imgflip.com/1g8my4.jpg'
+      ];
 
-        function draw() {
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.fillStyle = '#00ff00';
-          ctx.font = `${fontSize}px monospace`;
-          drops.forEach((y, x) => {
-            const text = chars[Math.floor(Math.random() * chars.length)];
-            const xPos = x * fontSize;
-            ctx.fillText(text, xPos, y * fontSize);
-            if (y * fontSize > canvas.height && Math.random() > 0.975) drops[x] = 0;
-            drops[x]++;
-          });
+      let pieces = [];
+      class Piece {
+        constructor(x, y, w, h, color) {
+          this.x = x;
+          this.y = y;
+          this.w = w;
+          this.h = h;
+          this.color = color;
+          this.vx = Math.random() * 4 - 2;
+          this.vy = Math.random() * -5 - 5;
+          this.gravity = 0.3;
+          this.bounce = -0.6;
+          this.grounded = false;
         }
-
-        setInterval(draw, 50);
+        update() {
+          if (this.grounded) return;
+          this.vy += this.gravity;
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.y + this.h > crumbleCanvas.height) {
+            this.y = crumbleCanvas.height - this.h;
+            this.vy *= this.bounce;
+            if (Math.abs(this.vy) < 1) this.grounded = true;
+          }
+          if (this.x < 0 || this.x + this.w > crumbleCanvas.width) {
+            this.vx *= -1;
+          }
+        }
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.fillRect(this.x, this.y, this.w, this.h);
+        }
       }
-    }
 
-    matrixDrip('matrix-left');
-    matrixDrip('matrix-right');
-  </script>
-   
-   <!-- Matrix Intro Pill Choice -->
-<script>
-  const introScreen = document.getElementById('intro-screen');
-  const redPill = document.getElementById('red-pill');
-  const bluePill = document.getElementById('blue-pill');
+      function crumble() {
+        const randomMeme = memes[Math.floor(Math.random() * memes.length)];
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0, crumbleCanvas.width, crumbleCanvas.height);
+          pieces = [];
+          const gridSize = 20;
+          for (let y = 0; y < crumbleCanvas.height; y += gridSize) {
+            for (let x = 0; x < crumbleCanvas.width; x += gridSize) {
+              const data = ctx.getImageData(x, y, gridSize, gridSize).data;
+              let r = 0, g = 0, b = 0;
+              for (let i = 0; i < data.length; i += 4) {
+                r += data[i];
+                g += data[i+1];
+                b += data[i+2];
+              }
+              r = Math.round(r / (data.length/4));
+              g = Math.round(g / (data.length/4));
+              b = Math.round(b / (data.length/4));
+              pieces.push(new Piece(x, y, gridSize, gridSize, `rgb(${r},${g},${b})`));
+            }
+          }
+          animateCrumble();
+        };
+        img.src = randomMeme;
+      }
 
-  redPill.addEventListener('click', () => {
-    window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';  // Rickroll
-  });
-
-  bluePill.addEventListener('click', () => {
-    introScreen.classList.add('hidden');
-    setTimeout(() => { introScreen.style.display = 'none'; }, 1000);  /* Fade out */
-  });
-
-  // Intro Matrix drip (confined to screen)
-  function introDrip() {
-    const canvas = document.getElementById('intro-matrix-bg');
-    if (canvas) {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      });
-
-      const ctx = canvas.getContext('2d');
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
-      const fontSize = 14;
-      const columns = Math.floor(canvas.width / fontSize);
-      const drops = Array.from({length: columns}, () => Math.random() * canvas.height / fontSize);
-
-      function draw() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#00ff00';
-        ctx.font = `${fontSize}px 'Courier New'`;
-        drops.forEach((y, x) => {
-          const text = chars[Math.floor(Math.random() * chars.length)];
-          ctx.fillText(text, x * fontSize, y * fontSize);
-          if (y * fontSize > canvas.height && Math.random() > 0.975) y = 0;
-          drops[x] = y + 1;
+      function animateCrumble() {
+        ctx.clearRect(0, 0, crumbleCanvas.width, crumbleCanvas.height);
+        pieces.forEach(p => {
+          p.update();
+          p.draw();
         });
+        if (pieces.some(p => !p.grounded)) requestAnimationFrame(animateCrumble);
       }
 
-      setInterval(draw, 50);
+      crumbleButton.addEventListener('click', crumble);
+      crumble(); // Auto-load first meme
     }
-  }
-  introDrip();
-</script>
-
+  </script>
 </body>
 </html>
