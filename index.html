@@ -47,6 +47,32 @@
       </ul>
     </section>
 
+    <section id="case-studies">
+  <h2>Real Results Delivered</h2>
+
+  <!-- Case Study 1 -->
+  <div class="case-study">
+    <h3>Web Dev Overhaul for Startup</h3>
+    <p>Problem: Slow site with 5s load times, losing 40% users.</p>
+    <p>My Role: Rebuilt in Next.js, optimized images, added CDN.</p>
+    <p>Tech: Next.js, Vercel, Sharp for images.</p>
+    <p>Impact: Load time to 1s, bounce rate down 30%, revenue up $20k/month.</p>
+    <p>Quote: "Legion turned our site from drag to rocket." – Founder</p>
+  </div>
+
+  <!-- Case Study 2 -->
+  <div class="case-study">
+    <h3>Cyber Contract for Enterprise</h3>
+    <p>Problem: No WAF, exposed to 100+ daily attacks.</p>
+    <p>My Role: Set up Cloudflare WAF, custom rules, automated scans.</p>
+    <p>Tech: Cloudflare, OWASP, Nessus.</p>
+    <p>Impact: Blocked 99% attacks, saved $100k in potential breaches.</p>
+    <p>Quote: "Legion is our cyber shield." – CTO</p>
+  </div>
+
+  <!-- Add 2–3 more fake/real ones -->
+</section>
+
     <section id="contact">
       <h2>Contact</h2>
       <p>Reach out: <a href="mailto:legion@legionslab.com">legion@legionslab.com</a></p>
@@ -105,6 +131,116 @@
     <p>Edgy text animations for bold branding.</p>
     <h1 class="glitch" data-text="We Are Legion">We Are Legion</h1>
   </div>
+
+  <!-- Demo 5: Lego-fy Image -->
+<div class="demo-card full-width">
+  <h3>Lego-fy Your Photo</h3>
+  <p>Upload an image to "Lego-fy" it (pixelate to Lego blocks).</p>
+  <input type="file" id="lego-input" accept="image/*">
+  <canvas id="lego-canvas" width="600" height="400"></canvas>
+</div>
+
+<!-- Demo 6: Crumble Photo -->
+<div class="demo-card full-width">
+  <h3>Crumb le Photo</h3>
+  <p>Upload a photo to crumble it into bouncing pieces.</p>
+  <input type="file" id="crumble-input" accept="image/*">
+  <canvas id="crumble-canvas" width="600" height="400"></canvas>
+</div>
+
+<!-- Lego-fy Image Demo -->
+<script>
+  const legoInput = document.getElementById('lego-input');
+  const legoCanvas = document.getElementById('lego-canvas');
+  const legoCtx = legoCanvas.getContext('2d');
+
+  legoInput.addEventListener('change', (e) => {
+    const img = new Image();
+    img.onload = () => {
+      legoCanvas.width = img.width;
+      legoCanvas.height = img.height;
+      legoCtx.drawImage(img, 0, 0);
+      const data = legoCtx.getImageData(0, 0, img.width, img.height);
+      legoCtx.clearRect(0, 0, img.width, img.height);
+
+      const blockSize = 10;  // Lego block size (industry std pixelation)
+      for (let y = 0; y < img.height; y += blockSize) {
+        for (let x = 0; x = img.width; x += blockSize) {
+          const i = (y * data.width + x) * 4;
+          const r = data.data[i];
+          const g = data.data[i + 1];
+          const b = data.data[i + 2];
+          legoCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+          legoCtx.fillRect(x, y, blockSize, blockSize);
+          legoCtx.fillStyle = '#333';  // Lego stud shadow
+          legoCtx.fillRect(x + blockSize * 0.8, y + blockSize * 0.8, blockSize * 0.2, blockSize * 0.2);
+        }
+      }
+    };
+    img.src = URL.createObjectURL(e.target.files[0]);
+  });
+</script>
+
+<!-- Crumble Photo Demo -->
+<script>
+  const crumbleInput = document.getElementById('crumble-input');
+  const crumbleCanvas = document.getElementById('crumble-canvas');
+  const crumbleCtx = crumbleCanvas.getContext('2d');
+
+  crumbleInput.addEventListener('change', (e) => {
+    const img = new Image();
+    img.onload = () => {
+      crumbleCanvas.width = img.width;
+      crumbleCanvas.height = img.height;
+      crumbleCtx.drawImage(img, 0, 0);
+      const data = crumbleCtx.getImageData(0, 0, img.width, img.height);
+      crumbleCtx.clearRect(0, 0, img.width, img.height);
+
+      const pieceSize = 10;  // Crumble piece size
+      let pieces = [];
+      for (let y = 0; y < img.height; y += pieceSize) {
+        for (let x = 0; x = img.width; x += pieceSize) {
+          pieces.push({
+            x, y,
+            dx: Math.random() * 4 - 2,  // Bounce velocity
+            dy: Math.random() * 4 - 2,
+            rotation: Math.random() * 360,
+            dr: Math.random() * 4 - 2,  // Rotation speed
+            gravity: 0.1,
+            imageData: ctx.getImageData(x, y, pieceSize, pieceSize)
+          });
+        }
+      }
+
+      function animate() {
+        crumbleCtx.clearRect(0, 0, crumbleCanvas.width, crumbleCanvas.height);
+        pieces.forEach(p => {
+          p.dy += p.gravity;
+          p.x += p.dx;
+          p.y += p.dy;
+          p.rotation += p.dr;
+
+          if (p.y > crumbleCanvas.height - pieceSize) {
+            p.y = crumbleCanvas.height - pieceSize;
+            p.dy *= -0.8;  // Bounce
+            p.dx *= 0.9;   // Friction
+            p.dr *= 0.8;
+          }
+
+          crumbleCtx.save();
+          crumbleCtx.translate(p.x + pieceSize / 2, p.y + pieceSize / 2);
+          crumbleCtx.rotate(p.rotation * Math.PI / 180);
+          crumbleCtx.putImageData(p.imageData, -pieceSize / 2, -pieceSize / 2);
+          crumbleCtx.restore();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    };
+    img.src = URL.createObjectURL(e.target.files[0]);
+  });
+</script>
+
 </section>
   </main>
 
