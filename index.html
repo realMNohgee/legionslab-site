@@ -44,54 +44,60 @@
       <p>Reach out: <a href="mailto:legion@legionslab.com">legion@legionslab.com</a></p>
     </section>
 
-    <section id="demos" class="demos-section">
-      <h2>What Legion Can Build For You</h2>
-      <p>Interactive demos powered by code — bug fixes, animations, automation, custom tools. Let's make your project unbreakable.</p>
+   <section id="demos" class="demos-section">
+  <h2>What Legion Can Build For You</h2>
+  <p>Interactive demos powered by code — bug fixes, animations, automation, custom tools. Let's make your project unbreakable.</p>
 
-      <!-- Demo 1: Particle Mouse Effect (confined box) -->
-      <div class="demo-card">
-        <h3>Interactive Mouse Particles</h3>
-        <p>Confined mouse-responsive particles — add flair to any section.</p>
-        <div id="particles-demo" class="demo-container">
-          <canvas id="particles-canvas"></canvas>
+  <!-- Double-layer Matrix Drip (outer slim + inner fill) -->
+  <canvas id="matrix-left-outer" class="matrix-drip-outer"></canvas>
+  <canvas id="matrix-left-inner" class="matrix-drip-inner"></canvas>
+  <canvas id="matrix-right-outer" class="matrix-drip-outer"></canvas>
+  <canvas id="matrix-right-inner" class="matrix-drip-inner"></canvas>
+
+  <!-- Demo 1: Particle Mouse Effect (confined box) -->
+  <div class="demo-card">
+    <h3>Interactive Mouse Particles</h3>
+    <p>Confined mouse-responsive particles — add flair to any section.</p>
+    <div id="particles-demo" class="demo-container">
+      <canvas id="particles-canvas"></canvas>
+    </div>
+  </div>
+
+  <!-- Demo 2: 3D Hover Cards -->
+  <div class="demo-card">
+    <h3>3D Hover Cards</h3>
+    <p>Showcase services with depth and interactivity.</p>
+    <div class="cards-container">
+      <div class="card">Bug Fixes & Debugging</div>
+      <div class="card">Automation Scripts</div>
+      <div class="card">Tech Consulting</div>
+    </div>
+  </div>
+
+  <!-- Demo 3: Code / Debug Showcase -->
+  <div class="demo-card full-width">
+    <h3>Code Writing & Debugging in Action</h3>
+    <p>Watch a "buggy" function get fixed live (simulated terminal).</p>
+    <div class="terminal-wrapper">
+      <div class="terminal-bar">
+        <div class="terminal-buttons">
+          <div class="terminal-button"></div>
+          <div class="terminal-button"></div>
+          <div class="terminal-button"></div>
         </div>
+        <span class="terminal-title">Legion's Debug Terminal - Python Mode</span>
       </div>
+      <div id="terminal-demo" class="terminal"></div>
+    </div>
+  </div>
 
-      <!-- Demo 2: 3D Hover Cards -->
-      <div class="demo-card">
-        <h3>3D Hover Cards</h3>
-        <p>Showcase services with depth and interactivity.</p>
-        <div class="cards-container">
-          <div class="card">Bug Fixes & Debugging</div>
-          <div class="card">Automation Scripts</div>
-          <div class="card">Tech Consulting</div>
-        </div>
-      </div>
-
-      <!-- Demo 3: Code / Debug Showcase (longer, looping) -->
-      <div class="demo-card full-width">
-        <h3>Code Writing & Debugging in Action</h3>
-        <p>Watch a "buggy" function get fixed live (simulated terminal).</p>
-        <div class="terminal-wrapper">
-          <div class="terminal-bar">
-            <div class="terminal-buttons">
-              <div class="terminal-button"></div>
-              <div class="terminal-button"></div>
-              <div class="terminal-button"></div>
-            </div>
-            <span class="terminal-title">Legion's Debug Terminal - Python Mode</span>
-          </div>
-          <div id="terminal-demo" class="terminal"></div>
-        </div>
-      </div>
-
-      <!-- Demo 4: Glitch Text -->
-      <div class="demo-card">
-        <h3>Glitch Effects</h3>
-        <p>Edgy text animations for bold branding.</p>
-        <h1 class="glitch" data-text="We Are Legion">We Are Legion</h1>
-      </div>
-    </section>
+  <!-- Demo 4: Glitch Text -->
+  <div class="demo-card">
+    <h3>Glitch Effects</h3>
+    <p>Edgy text animations for bold branding.</p>
+    <h1 class="glitch" data-text="We Are Legion">We Are Legion</h1>
+  </div>
+</section>
   </main>
 
   <footer>
