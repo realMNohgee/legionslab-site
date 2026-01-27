@@ -259,18 +259,29 @@
     }
   </script>
 
-  <!-- Matrix Drip Sides - clean crisp, minimal void -->
-  <script>
-    function matrixDrip(canvasId) {
-      const canvas = document.getElementById(canvasId);
-      if (canvas) {
-        canvas.width = 120;  // Wide to fill black space
-        canvas.height = window.innerHeight;
+  <!-- Matrix Drip Sides - full-height on load/resize/scroll -->
+<script>
+  function matrixDrip(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    if (canvas) {
+      // Force full size on load
+      function resizeDrip() {
+        canvas.width = 120;  // Wide to fill void
+        canvas.height = Math.max(document.body.scrollHeight, window.innerHeight);
+      }
+
+      // Run on load, resize, scroll
+        window.addEventListener('load', resizeDrip);
+        window.addEventListener('resize', resizeDrip);
+        window.addEventListener('scroll', resizeDrip, { passive: true });
+
+        resizeDrip();  // Initial call
+
         const ctx = canvas.getContext('2d');
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
         const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = Array.from({length: columns}, () => Math.random() * canvas.height / fontSize);
+        let columns = Math.floor(canvas.width / fontSize);
+        let drops = Array.from({length: columns}, () => Math.random() * canvas.height / fontSize);
 
         function draw() {
           ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
@@ -279,9 +290,10 @@
           ctx.font = `${fontSize}px monospace`;
           drops.forEach((y, x) => {
             const text = chars[Math.floor(Math.random() * chars.length)];
-            ctx.fillText(text, x * fontSize, y * fontSize);
-            if (y * fontSize > canvas.height && Math.random() > 0.975) y = 0;
-            drops[x] = y + 1;
+            const xPos = x * fontSize;
+            ctx.fillText(text, xPos, y * fontSize);
+            if (y * fontSize > canvas.height && Math.random() > 0.975) drops[x] = 0;
+            drops[x]++;
           });
         }
 
@@ -292,5 +304,6 @@
     matrixDrip('matrix-left');
     matrixDrip('matrix-right');
   </script>
+    
 </body>
 </html>
