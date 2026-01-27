@@ -9,6 +9,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="intro-screen" id="intro-screen">
+  <canvas id="intro-matrix-bg"></canvas> <!-- Matrix drip for intro -->
+  <h1 class="intro-title">Choose Wisely, Legion</h1>
+  <div class="intro-buttons">
+    <button id="red-pill" class="pill-button">Red Pill</button>
+    <button id="blue-pill" class="pill-button">Blue Pill</button>
+  </div>
+</div>
   <canvas id="matrix-bg"></canvas> <!-- Full-screen Matrix drip background -->
 
   <header>
@@ -304,6 +312,58 @@
     matrixDrip('matrix-left');
     matrixDrip('matrix-right');
   </script>
-    
+   
+   <!-- Matrix Intro Pill Choice -->
+<script>
+  const introScreen = document.getElementById('intro-screen');
+  const redPill = document.getElementById('red-pill');
+  const bluePill = document.getElementById('blue-pill');
+
+  redPill.addEventListener('click', () => {
+    window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';  // Rickroll
+  });
+
+  bluePill.addEventListener('click', () => {
+    introScreen.classList.add('hidden');
+    setTimeout(() => { introScreen.style.display = 'none'; }, 1000);  /* Fade out */
+  });
+
+  // Intro Matrix drip (confined to screen)
+  function introDrip() {
+    const canvas = document.getElementById('intro-matrix-bg');
+    if (canvas) {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+
+      const ctx = canvas.getContext('2d');
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
+      const fontSize = 14;
+      const columns = Math.floor(canvas.width / fontSize);
+      const drops = Array.from({length: columns}, () => Math.random() * canvas.height / fontSize);
+
+      function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00ff00';
+        ctx.font = `${fontSize}px 'Courier New'`;
+        drops.forEach((y, x) => {
+          const text = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(text, x * fontSize, y * fontSize);
+          if (y * fontSize > canvas.height && Math.random() > 0.975) y = 0;
+          drops[x] = y + 1;
+        });
+      }
+
+      setInterval(draw, 50);
+    }
+  }
+  introDrip();
+</script>
+
 </body>
 </html>
