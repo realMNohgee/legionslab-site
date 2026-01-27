@@ -1,7 +1,7 @@
 /* Legion's Lab - Matrix Dark Theme + Interactive Demos
    Industry standard: semantic CSS, mobile-first, no frameworks, performant animations */
 
-/* Reset & base - kept from your original, upgraded to pure Matrix black/green */
+/* Reset & base */
 * {
   margin: 0;
   padding: 0;
@@ -18,57 +18,28 @@ body {
   margin: 0 auto;
 }
 
-/* ensure canvas sits behind content and covers the screen */
-#canvas {
+/* Matrix drip background - full edge-to-edge behind content */
+.matrix-drip {
   position: fixed;
-  left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1; /* behind page content */
-  display: block;
-  background: transparent; /* we'll paint black in JS */
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
 }
 
-/* ensure the demo section content is above the canvas */
-.demos-section {
-  position: relative;
-  z-index: 3;
-  background: #000 !important;
-  border: 1px solid #00ff00;
-  border-radius: 8px;
-  padding: 2rem;
-  margin: 1rem auto;
-  max-width: 900px;
-  box-shadow: 0 0 15px rgba(0,255,0,0.2);
-}
-
-/* Content box - fully opaque black to block drip fade bleed */
-header,
-footer,
-main,
-.demos-section,
-.demo-card,
-.terminal-wrapper {
-  position: relative;
-  z-index: 30;                    /* Way above drip (-1) + fade */
-  background: #000 !important;    /* Fully opaque black - no transparency leak */
-  border: 1px solid #00ff00;
-  border-radius: 8px;
-  padding: 2rem;
-  margin: 1rem auto;
-  max-width: 900px;
-  box-shadow: 0 0 15px rgba(0,255,0,0.2);
-}
-
-/* Force opacity 1 on borders/text to prevent fade-through */
-h1, h2, h3, p, li, a, .card, .terminal {
-  opacity: 1 !important;
-}
-
-/* Optional: stronger border glow for crisp look */
-header, footer, main {
-  border: 1px solid #00ff00;
+/* Sharp vignette fade to create stop at content borders */
+.matrix-drip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 42%,               /* Center transparent (content area) */
+    #000 48%                       /* Sharp black fade at content border */
+  );
+  pointer-events: none;
 }
 
 /* Header & nav - enhanced glow */
@@ -120,7 +91,6 @@ main {
   border: 1px solid #004d00;        /* Dark green edge */
   border-radius: 8px;
   box-shadow: 0 0 20px rgba(0, 255, 65, 0.1); /* Outer glow */
-  overflow: hidden;
 }
 
 ul {
@@ -153,10 +123,12 @@ footer {
   padding-top: 1rem;
 }
 
-/* Demos section - new Matrix-styled showcase */
+/* Demos section - Matrix-styled showcase */
 .demos-section {
   padding: 4rem 2rem;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .demo-card {
@@ -168,6 +140,8 @@ footer {
   max-width: 800px;
   box-shadow: 0 0 15px rgba(0, 255, 65, 0.3); /* Green glow */
   transition: box-shadow 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .demo-card:hover {
@@ -253,14 +227,14 @@ footer {
 
 .glitch::before {
   left: 2px;
-  text-shadow: -2px 0 #ff00c1;     /* Magenta glitch layer */
+  text-shadow: -2px 0 #ff00c1;
   animation: glitch-anim 2s infinite linear alternate-reverse;
   clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
 }
 
 .glitch::after {
   left: -2px;
-  text-shadow: 2px 0 #00ffff;      /* Cyan glitch layer */
+  text-shadow: 2px 0 #00ffff;
   animation: glitch-anim2 3s infinite linear alternate-reverse;
   clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
 }
@@ -293,49 +267,12 @@ footer {
   .glitch { font-size: 2rem; }
 }
 
-/* Matrix Drip Sides - tightened for closer framing */
-.matrix-drip {
-  position: fixed;
-  top: 0;
-  width: 500px;                   /* Wider = more lines (~35 lines) */
-  height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-}
-
-#matrix-left {
-  left: 0;
-}
-
-#matrix-right {
-  right: 0;
-}
-
-/* Content box - solid black, high z-index to cut drip cleanly */
-.demos-section,
-.demo-card,
-.terminal-wrapper,
-main,
-header,
-footer {
-  position: relative;
-  z-index: 10;
-  background: #000 !important;
-  border: 1px solid #00ff00;
-  border-radius: 8px;
-  padding: 2rem;
-  margin: 1rem auto;
-  max-width: 900px;
-  box-shadow: 0 0 15px rgba(0,255,0,0.2);
-}
-
-#matrix-left::after {
-  right: 0;
-}
-
-#matrix-right::after {
-  left: 0;
-  background: linear-gradient(to left, transparent, rgba(0,0,0,0.8));
+/* Responsive particle demo - shrink on mobile */
+@media (max-width: 768px) {
+  #particles-demo {
+    width: 100%;
+    height: 200px;  /* Smaller on mobile */
+  }
 }
 
 /* Particle Demo Window */
@@ -356,7 +293,7 @@ footer {
   background: #000;  /* Black background inside window */
 }
 
-/* Terminal Wrapper (already there, but ensure) */
+/* Terminal Wrapper */
 .terminal-wrapper {
   background: #111;
   border: 1px solid #004d00;
@@ -368,9 +305,3 @@ footer {
 }
 
 /* Other styles as before... */
-/* Responsive Matrix drip - shrink on mobile */
-@media (max-width: 768px) {
-  .matrix-drip {
-    width: 200px;  /* Slimmer for small screens */
-  }
-}

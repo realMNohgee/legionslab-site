@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,8 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <canvas id="matrix-bg"></canvas> <!-- Full-screen Matrix drip background -->
+
   <header>
     <h1>Legion's Lab</h1>
     <nav>
@@ -39,26 +42,22 @@
     <section id="contact">
       <h2>Contact</h2>
       <p>Reach out: <a href="mailto:legion@legionslab.com">legion@legionslab.com</a></p>
-      <!-- Add form later if needed -->
     </section>
 
     <section id="demos" class="demos-section">
       <h2>What Legion Can Build For You</h2>
       <p>Interactive demos powered by code — bug fixes, animations, automation, custom tools. Let's make your project unbreakable.</p>
 
-      <!-- Matrix Drip Left Side -->
-      <canvas id="matrix-left" class="matrix-drip"></canvas>
-
-      <!-- Demo 1: Particle Mouse Effect (confined to window) -->
+      <!-- Demo 1: Particle Mouse Effect (confined box) -->
       <div class="demo-card">
-        <h3>Interactive Background Effects</h3>
-        <p>Mouse-responsive particles — perfect for engaging landing pages.</p>
+        <h3>Interactive Mouse Particles</h3>
+        <p>Confined mouse-responsive particles — add flair to any section.</p>
         <div id="particles-demo" class="demo-container">
           <canvas id="particles-canvas"></canvas>
         </div>
       </div>
 
-      <!-- Demo 2: 3D Service Cards -->
+      <!-- Demo 2: 3D Hover Cards -->
       <div class="demo-card">
         <h3>3D Hover Cards</h3>
         <p>Showcase services with depth and interactivity.</p>
@@ -92,9 +91,6 @@
         <p>Edgy text animations for bold branding.</p>
         <h1 class="glitch" data-text="We Are Legion">We Are Legion</h1>
       </div>
-
-      <!-- Matrix Drip Right Side -->
-      <canvas id="matrix-right" class="matrix-drip"></canvas>
     </section>
   </main>
 
@@ -102,13 +98,59 @@
     <p>&copy; 2026 Legion's Lab. We are Legion. 😈</p>
   </footer>
 
-  <!-- JS for Particle Demo (confined to window) -->
+  <!-- JS for Full-screen Matrix particle rain background -->
   <script>
-    // Mouse-follow particles - confined to demo canvas
+    const matrixCanvas = document.getElementById('matrix-bg');
+    if (matrixCanvas) {
+      matrixCanvas.width = window.innerWidth;
+      matrixCanvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        matrixCanvas.width = window.innerWidth;
+        matrixCanvas.height = window.innerHeight;
+      });
+
+      const ctx = matrixCanvas.getContext('2d');
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
+      const fontSize = 14;
+      let columns = Math.floor(matrixCanvas.width / fontSize);
+      let drops = Array.from({length: columns}, () => Math.random() * matrixCanvas.height / fontSize);
+
+      function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+        ctx.fillStyle = '#00ff00';
+        ctx.font = fontSize + 'px monospace';
+
+        drops.forEach((y, i) => {
+          const text = chars[Math.floor(Math.random() * chars.length)];
+          const x = i * fontSize;
+          ctx.fillText(text, x, y * fontSize);
+
+          if (y * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        });
+      }
+
+      setInterval(draw, 50);
+    }
+  </script>
+
+  <!-- JS for Particle Demo (confined to box) -->
+  <script>
     const particlesCanvas = document.getElementById('particles-canvas');
     if (particlesCanvas) {
-      particlesCanvas.width = 600;  // Confined size
-      particlesCanvas.height = 300;
+      function resizeParticles() {
+        const rect = particlesCanvas.parentElement.getBoundingClientRect();
+        particlesCanvas.width = rect.width;
+        particlesCanvas.height = rect.height;
+      }
+      window.addEventListener('resize', resizeParticles);
+      resizeParticles();
+
       const ctx = particlesCanvas.getContext('2d');
       let particles = [];
       const mouse = { x: null, y: null };
@@ -133,7 +175,6 @@
               this.y += dy * 0.05;
             }
           }
-          // Wrap around edges
           if (this.x < 0) this.x = particlesCanvas.width;
           if (this.x > particlesCanvas.width) this.x = 0;
           if (this.y < 0) this.y = particlesCanvas.height;
@@ -147,10 +188,16 @@
         }
       }
 
-      for (let i = 0; i < 100; i++) particles.push(new Particle());
+      function initParticles() {
+        particles = [];
+        const count = Math.floor(particlesCanvas.width * particlesCanvas.height / 3000); // Density control
+        for (let i = 0; i < count; i++) particles.push(new Particle());
+      }
+      initParticles();
+      window.addEventListener('resize', initParticles);
 
       function animate() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';  // Trailing fade
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
         ctx.fillRect(0, 0, particlesCanvas.width, particlesCanvas.height);
         particles.forEach(p => { p.update(); p.draw(); });
         requestAnimationFrame(animate);
@@ -167,7 +214,6 @@
 
   <!-- JS for Terminal Typing Effect (longer, looping) -->
   <script>
-    // Simulated code fix terminal - longer lines, loop
     const terminal = document.getElementById('terminal-demo');
     if (terminal) {
       const lines = [
@@ -200,20 +246,19 @@
       function typeLine() {
         terminal.innerHTML += lines[i] + '\n';
         terminal.scrollTop = terminal.scrollHeight;
-        i = (i + 1) % lines.length;  // Loop back to start
-        setTimeout(typeLine, 1000);   // Slower pace for longer content
+        i = (i + 1) % lines.length;
+        setTimeout(typeLine, 1000);
       }
-      typeLine();  // Start immediately
+      typeLine();
     }
   </script>
 
-  <!-- JS for Matrix Drip Sides -->
+  <!-- Matrix Drip Sides - clean crisp, minimal void -->
   <script>
-    // Matrix code rain - left/right sides, vanilla JS
     function matrixDrip(canvasId) {
       const canvas = document.getElementById(canvasId);
       if (canvas) {
-        canvas.width = 100;  // Slim width for sides
+        canvas.width = 120;  // Wide to fill black space
         canvas.height = window.innerHeight;
         const ctx = canvas.getContext('2d');
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
@@ -222,10 +267,10 @@
         const drops = Array.from({length: columns}, () => Math.random() * canvas.height / fontSize);
 
         function draw() {
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';  // Fade trail
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.fillStyle = '#00ff00';
-          ctx.font = `${fontSize}px 'Courier New'`;
+          ctx.font = `${fontSize}px monospace`;
           drops.forEach((y, x) => {
             const text = chars[Math.floor(Math.random() * chars.length)];
             ctx.fillText(text, x * fontSize, y * fontSize);
