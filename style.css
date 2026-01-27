@@ -16,50 +16,27 @@ body {
   padding: 2rem;
   max-width: 900px;
   margin: 0 auto;
-}
-
-/* Matrix drip background - full edge-to-edge behind content */
-.matrix-drip {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* Sharp vignette fade to create stop at content borders */
-.matrix-drip::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 42%,               /* Center transparent (content area) */
-    #000 48%                       /* Sharp black fade at content border */
-  );
-  pointer-events: none;
+  min-height: 100vh;                /* Ensure full height for drip */
 }
 
 /* Header & nav - enhanced glow */
 header {
   text-align: center;
   margin-bottom: 3rem;
-  border-bottom: 2px solid #00ff41; /* Brighter green border */
+  border-bottom: 2px solid #00ff41;
   padding-bottom: 1rem;
+  position: relative;
+  z-index: 2;
 }
 
 h1 {
   font-size: 3rem;
-  color: #00ff41;                   /* Bright green */
-  text-shadow: 0 0 10px #00ff41,
-               0 0 20px #00ff41,
-               0 0 30px #00ff41;   /* Triple glow layers */
+  color: #00ff41;
+  text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 30px #00ff41;
 }
 
 nav a {
-  color: #00ff9d;                   /* Lighter green links */
+  color: #00ff9d;
   margin: 0 1rem;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -74,6 +51,8 @@ nav a:hover {
 /* Sections - consistent Matrix styling */
 section {
   margin: 3rem 0;
+  position: relative;
+  z-index: 2;
 }
 
 h2 {
@@ -86,11 +65,13 @@ h2 {
 }
 
 main {
-  background: rgba(0, 0, 0, 0.9);   /* Subtle black overlay */
+  background: rgba(0, 0, 0, 0.9);
   padding: 2rem;
-  border: 1px solid #004d00;        /* Dark green edge */
+  border: 1px solid #004d00;
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 255, 65, 0.1); /* Outer glow */
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+  position: relative;
+  z-index: 2;
 }
 
 ul {
@@ -101,7 +82,7 @@ ul li {
   margin: 0.5rem 0;
   padding-left: 1.5rem;
   position: relative;
-  color: #00ff9d;                   /* Lighter green list items */
+  color: #00ff9d;
 }
 
 ul li::before {
@@ -118,30 +99,32 @@ footer {
   margin-top: 4rem;
   font-size: 0.9rem;
   opacity: 0.8;
-  color: #00cc00;                   /* Muted green */
+  color: #00cc00;
   border-top: 1px solid #004d00;
   padding-top: 1rem;
+  position: relative;
+  z-index: 2;
 }
 
-/* Demos section - Matrix-styled showcase */
+/* Demos section */
 .demos-section {
   padding: 4rem 2rem;
   text-align: center;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .demo-card {
-  background: #0a0a0a;              /* Near-black cards */
+  background: #0a0a0a;
   border: 1px solid #004d00;
   border-radius: 8px;
   padding: 2rem;
   margin: 2rem auto;
   max-width: 800px;
-  box-shadow: 0 0 15px rgba(0, 255, 65, 0.3); /* Green glow */
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
   transition: box-shadow 0.3s ease;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .demo-card:hover {
@@ -152,7 +135,7 @@ footer {
   max-width: 1000px;
 }
 
-/* 3D Hover Cards - Codrops-inspired transforms */
+/* 3D Hover Cards */
 .cards-container {
   display: flex;
   gap: 1.5rem;
@@ -184,7 +167,7 @@ footer {
               inset 0 0 10px rgba(0, 255, 157, 0.2);
 }
 
-/* Terminal Demo - pure Matrix terminal look */
+/* Terminal Demo */
 .terminal {
   background: #000;
   color: #00ff00;
@@ -201,7 +184,7 @@ footer {
               0 0 15px rgba(0, 255, 0, 0.2);
 }
 
-/* Glitch Text Effect - Codrops-style distortion */
+/* Glitch Text Effect */
 .glitch {
   font-size: 3rem;
   color: #00ff00;
@@ -258,20 +241,16 @@ footer {
   30% { transform: skew(1deg); }
 }
 
-/* Responsive - mobile-first industry std */
+/* Responsive */
 @media (max-width: 768px) {
   body { padding: 1rem; }
   h1 { font-size: 2rem; }
   .cards-container { flex-direction: column; align-items: center; }
   .card { width: 90%; max-width: 300px; }
   .glitch { font-size: 2rem; }
-}
-
-/* Responsive particle demo - shrink on mobile */
-@media (max-width: 768px) {
   #particles-demo {
     width: 100%;
-    height: 200px;  /* Smaller on mobile */
+    height: 200px;
   }
 }
 
@@ -280,7 +259,7 @@ footer {
   position: relative;
   width: 600px;
   height: 300px;
-  overflow: hidden;  /* Confine particles */
+  overflow: hidden;
   border: 1px solid #004d00;
   border-radius: 8px;
   margin: 1rem auto;
@@ -290,7 +269,7 @@ footer {
   display: block;
   width: 100%;
   height: 100%;
-  background: #000;  /* Black background inside window */
+  background: #000;
 }
 
 /* Terminal Wrapper */
@@ -304,4 +283,56 @@ footer {
   position: relative;
 }
 
-/* Other styles as before... */
+/* Matrix Drip Sides - clean crisp, minimal void (tight gap) */
+.matrix-drip {
+  position: fixed;
+  top: 0;
+  width: 120px;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
+#matrix-left {
+  left: 0;
+}
+
+#matrix-right {
+  right: 0;
+}
+
+/* Sharp inner fade - stops drip at green border (minimal void) */
+.matrix-drip::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 120px;
+  pointer-events: none;
+  background: linear-gradient(to right, #00ff00 0%, #000 5%); /* Tight 5% fade */
+  opacity: 0.95;
+}
+
+#matrix-left::after {
+  right: 0;
+  background: linear-gradient(to right, #00ff00 0%, #000 5%);
+  transform: scaleX(-1);
+}
+
+#matrix-right::after {
+  left: 0;
+  background: linear-gradient(to right, #00ff00 0%, #000 5%);
+}
+
+/* Solid black on content to block bleed */
+.demos-section, .demo-card, .terminal-wrapper, main, header, footer {
+  position: relative;
+  z-index: 1;
+  background: #000 !important;
+  border: 1px solid #00ff00;
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 1rem auto;
+  max-width: 900px;
+  box-shadow: 0 0 15px rgba(0,255,0,0.2);
+}
