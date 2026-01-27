@@ -283,60 +283,6 @@ footer {
   position: relative;
 }
 
-/* Matrix Drip Sides - clean crisp, minimal void (tight gap) */
-.matrix-drip {
-  position: fixed;
-  top: 0;
-  width: 120px;
-  height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-}
-
-#matrix-left {
-  left: 0;
-}
-
-#matrix-right {
-  right: 0;
-}
-
-/* Sharp inner fade - stops drip at green border (minimal void) */
-.matrix-drip::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 120px;
-  pointer-events: none;
-  background: linear-gradient(to right, #00ff00 0%, #000 5%); /* Tight 5% fade */
-  opacity: 0.95;
-}
-
-#matrix-left::after {
-  right: 0;
-  background: linear-gradient(to right, #00ff00 0%, #000 5%);
-  transform: scaleX(-1);
-}
-
-#matrix-right::after {
-  left: 0;
-  background: linear-gradient(to right, #00ff00 0%, #000 5%);
-}
-
-/* Solid black on content to block bleed */
-.demos-section, .demo-card, .terminal-wrapper, main, header, footer {
-  position: relative;
-  z-index: 1;
-  background: #000 !important;
-  border: 1px solid #00ff00;
-  border-radius: 8px;
-  padding: 2rem;
-  margin: 1rem auto;
-  max-width: 900px;
-  box-shadow: 0 0 15px rgba(0,255,0,0.2);
-}
-
 /* Matrix Intro Screen - full-screen overlay */
 .intro-screen {
   position: fixed;
