@@ -10,7 +10,7 @@
 <body>
   <!-- Intro Pill Choice Screen with drip -->
   <div class="intro-screen" id="intro-screen">
-    <canvas id="intro-matrix-bg"></canvas> <!-- Drip confined to intro -->
+    <canvas id="intro-matrix-bg"></canvas>
     <h1 class="intro-title">Choose Wisely, Legion</h1>
     <div class="intro-buttons">
       <button id="red-pill" class="pill-button">Red Pill</button>
@@ -55,7 +55,7 @@
       <h2>What Legion Can Build For You</h2>
       <p>Interactive demos powered by code — bug fixes, animations, automation, custom tools. Let's make your project unbreakable.</p>
 
-      <!-- Demo 1: Particle Mouse Effect -->
+      <!-- Demo 1: Particle Mouse Effect (confined box) -->
       <div class="demo-card">
         <h3>Interactive Mouse Particles</h3>
         <p>Confined mouse-responsive particles — add flair to any section.</p>
@@ -107,18 +107,20 @@
         <canvas id="lego-canvas" class="lego-canvas"></canvas>
       </div>
 
-      <!-- Demo 6: Grid Fall Apart (random meme) -->
+      <!-- Demo 6: Pixel / Voxel Drop (grid fall + bounce) -->
       <div class="demo-card full-width">
-        <h3>Grid Fall Apart</h3>
-        <p>Watch a random meme shatter and bounce apart.</p>
-        <button id="crumble-button">Crumble Random Meme</button>
-        <canvas id="crumble-canvas" class="crumble-canvas"></canvas>
+        <h3>Pixel / Voxel Drop</h3>
+        <p>Watch an image shatter into bouncing 3D cubes.</p>
+        <button id="voxel-button">Shatter Random Image</button>
+        <div id="voxel-container"></div>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2026 Legion's Lab. We are Legion. 😈</p>
+    <p>&copy; 2026 Legion's Lab. We are Legion. 😈 | 
+      <a href="https://github.com/realMNohgee/legionslab-site" target="_blank">View Source on GitHub</a>
+    </p>
   </footer>
 
   <!-- JS for Intro Pill Choice + Intro Drip -->
@@ -136,7 +138,7 @@
       setTimeout(() => { introScreen.style.display = 'none'; }, 1000);
     });
 
-    // Intro Matrix drip (confined to intro screen)
+    // Intro Matrix drip
     function introDrip() {
       const canvas = document.getElementById('intro-matrix-bg');
       if (canvas) {
@@ -225,7 +227,7 @@
 
       function initParticles() {
         particles = [];
-        const count = Math.floor(particlesCanvas.width * particlesCanvas.height / 3000); // Density control
+        const count = Math.floor(particlesCanvas.width * particlesCanvas.height / 3000);
         for (let i = 0; i < count; i++) particles.push(new Particle());
       }
 
@@ -289,7 +291,8 @@
     }
   </script>
 
-  <!-- Lego-ify & Grid Crumble Demos (random memes, no upload) -->
+  <!-- JS for Lego-ify & Pixel/Voxel Drop Demos (random memes, no upload) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.min.js"></script>
   <script>
     // Lego-ify random meme
     const legoButton = document.getElementById('lego-button');
@@ -342,65 +345,61 @@
       legoify(); // Auto-load first meme
     }
 
-    // Grid Crumble random meme
-    const crumbleButton = document.getElementById('crumble-button');
-    const crumbleCanvas = document.getElementById('crumble-canvas');
-    if (crumbleButton && crumbleCanvas) {
-      const ctx = crumbleCanvas.getContext('2d');
-      crumbleCanvas.width = 600;
-      crumbleCanvas.height = 400;
+    // Pixel / Voxel Drop (grid fall + bounce)
+    const voxelButton = document.getElementById('voxel-button');
+    const voxelContainer = document.getElementById('voxel-container');
+    if (voxelButton && voxelContainer) {
+      let scene, camera, renderer, cubes = [];
 
-      const memes = [
-        'https://i.imgflip.com/1bij.jpg',
-        'https://i.imgflip.com/1ur9b0.jpg',
-        'https://i.imgflip.com/1g8my4.jpg'
-      ];
+      function initVoxel() {
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x000000);
 
-      let pieces = [];
-      class Piece {
-        constructor(x, y, w, h, color) {
-          this.x = x;
-          this.y = y;
-          this.w = w;
-          this.h = h;
-          this.color = color;
-          this.vx = Math.random() * 4 - 2;
-          this.vy = Math.random() * -5 - 5;
-          this.gravity = 0.3;
-          this.bounce = -0.6;
-          this.grounded = false;
-        }
-        update() {
-          if (this.grounded) return;
-          this.vy += this.gravity;
-          this.x += this.vx;
-          this.y += this.vy;
-          if (this.y + this.h > crumbleCanvas.height) {
-            this.y = crumbleCanvas.height - this.h;
-            this.vy *= this.bounce;
-            if (Math.abs(this.vy) < 1) this.grounded = true;
-          }
-          if (this.x < 0 || this.x + this.w > crumbleCanvas.width) {
-            this.vx *= -1;
-          }
-        }
-        draw() {
-          ctx.fillStyle = this.color;
-          ctx.fillRect(this.x, this.y, this.w, this.h);
-        }
+        camera = new THREE.PerspectiveCamera(75, voxelContainer.clientWidth / voxelContainer.clientHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(voxelContainer.clientWidth, voxelContainer.clientHeight);
+        voxelContainer.appendChild(renderer.domElement);
+
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(5, 5, 5);
+        scene.add(light);
+
+        const ambient = new THREE.AmbientLight(0x404040);
+        scene.add(ambient);
+
+        window.addEventListener('resize', () => {
+          camera.aspect = voxelContainer.clientWidth / voxelContainer.clientHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(voxelContainer.clientWidth, voxelContainer.clientHeight);
+        });
       }
 
-      function crumble() {
-        const randomMeme = memes[Math.floor(Math.random() * memes.length)];
+      function shatterImage() {
+        cubes.forEach(cube => scene.remove(cube));
+        cubes = [];
+
+        const images = [
+          'https://i.imgflip.com/1bij.jpg',
+          'https://i.imgflip.com/1ur9b0.jpg',
+          'https://i.imgflip.com/1g8my4.jpg'
+        ];
+        const imgSrc = images[Math.floor(Math.random() * images.length)];
+
         const img = new Image();
         img.crossOrigin = 'anonymous';
         img.onload = () => {
-          ctx.drawImage(img, 0, 0, crumbleCanvas.width, crumbleCanvas.height);
-          pieces = [];
-          const gridSize = 20;
-          for (let y = 0; y < crumbleCanvas.height; y += gridSize) {
-            for (let x = 0; x < crumbleCanvas.width; x += gridSize) {
-              const data = ctx.getImageData(x, y, gridSize, gridSize).data;
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+
+          const pixelSize = 8;
+          for (let y = 0; y < img.height; y += pixelSize) {
+            for (let x = 0; x < img.width; x += pixelSize) {
+              const data = ctx.getImageData(x, y, pixelSize, pixelSize).data;
               let r = 0, g = 0, b = 0;
               for (let i = 0; i < data.length; i += 4) {
                 r += data[i];
@@ -410,25 +409,55 @@
               r = Math.round(r / (data.length/4));
               g = Math.round(g / (data.length/4));
               b = Math.round(b / (data.length/4));
-              pieces.push(new Piece(x, y, gridSize, gridSize, `rgb(${r},${g},${b})`));
+
+              const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+              const material = new THREE.MeshStandardMaterial({ color: `rgb(${r},${g},${b})` });
+              const cube = new THREE.Mesh(geometry, material);
+
+              cube.position.set(
+                (x / img.width - 0.5) * 5,
+                (0.5 - y / img.height) * 5,
+                Math.random() * 2 - 1
+              );
+
+              cube.userData = {
+                vy: Math.random() * -0.1 - 0.05,
+                gravity: 0.005,
+                bounce: -0.6,
+                grounded: false
+              };
+
+              scene.add(cube);
+              cubes.push(cube);
             }
           }
-          animateCrumble();
+          animateVoxel();
         };
-        img.src = randomMeme;
+        img.src = imgSrc;
       }
 
-      function animateCrumble() {
-        ctx.clearRect(0, 0, crumbleCanvas.width, crumbleCanvas.height);
-        pieces.forEach(p => {
-          p.update();
-          p.draw();
+      function animateVoxel() {
+        requestAnimationFrame(animateVoxel);
+
+        cubes.forEach(cube => {
+          if (!cube.userData.grounded) {
+            cube.userData.vy += cube.userData.gravity;
+            cube.position.y += cube.userData.vy;
+
+            if (cube.position.y < -2) {
+              cube.position.y = -2;
+              cube.userData.vy *= cube.userData.bounce;
+              if (Math.abs(cube.userData.vy) < 0.01) cube.userData.grounded = true;
+            }
+          }
         });
-        if (pieces.some(p => !p.grounded)) requestAnimationFrame(animateCrumble);
+
+        renderer.render(scene, camera);
       }
 
-      crumbleButton.addEventListener('click', crumble);
-      crumble(); // Auto-load first meme
+      initVoxel();
+      voxelButton.addEventListener('click', shatterImage);
+      shatterImage(); // Auto-load first
     }
   </script>
 </body>
