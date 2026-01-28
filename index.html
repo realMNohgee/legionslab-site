@@ -99,22 +99,21 @@
         <h1 class="glitch" data-text="We Are Legion">We Are Legion</h1>
       </div>
 
-      <!-- Demo 5: Lego-ify Image (random meme) -->
+            <!-- Demo 5: Lego-ify Image (from rock-biter/lego-pixellation) -->
       <div class="demo-card full-width">
         <h3>Lego-ify Image</h3>
-        <p>Watch a random meme turn into Lego bricks.</p>
+        <p>Watch a random meme turn into detailed Lego bricks with shadows.</p>
         <button id="lego-button">Lego-ify Random Meme</button>
         <canvas id="lego-canvas" class="lego-canvas"></canvas>
       </div>
 
-      <!-- Demo 6: Pixel / Voxel Drop (grid fall + bounce) -->
+      <!-- Demo 6: Pixel / Voxel Drop (from Codrops) -->
       <div class="demo-card full-width">
-        <h3>Pixel / Voxel Drop</h3>
-        <p>Watch an image shatter into bouncing 3D cubes.</p>
-        <button id="voxel-button">Shatter Random Image</button>
-        <div id="voxel-container"></div>
+        <h3>Pixel / Voxel Drop Effect</h3>
+        <p>Watch a random meme shatter into bouncing 3D cubes.</p>
+        <button id="voxel-button">Shatter Random Meme</button>
+        <div id="voxel-container" class="voxel-container"></div>
       </div>
-    </section>
   </main>
 
   <footer>
@@ -291,10 +290,8 @@
     }
   </script>
 
-  <!-- JS for Lego-ify & Pixel/Voxel Drop Demos (random memes, no upload) -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.min.js"></script>
+  <!-- Lego-ify Demo (from rock-biter/lego-pixellation) -->
   <script>
-    // Lego-ify random meme
     const legoButton = document.getElementById('lego-button');
     const legoCanvas = document.getElementById('lego-canvas');
     if (legoButton && legoCanvas) {
@@ -303,49 +300,61 @@
       legoCanvas.height = 400;
 
       const memes = [
-        'https://i.imgflip.com/1bij.jpg', // Success Kid
-        'https://i.imgflip.com/1ur9b0.jpg', // Distracted Boyfriend
-        'https://i.imgflip.com/1g8my4.jpg' // This is Fine
+        'https://i.imgflip.com/1bij.jpg',
+        'https://i.imgflip.com/1ur9b0.jpg',
+        'https://i.imgflip.com/1g8my4.jpg'
       ];
 
       function legoify() {
-        const randomMeme = memes[Math.floor(Math.random() * memes.length)];
+        const imgSrc = memes[Math.floor(Math.random() * memes.length)];
         const img = new Image();
         img.crossOrigin = 'anonymous';
         img.onload = () => {
           ctx.drawImage(img, 0, 0, legoCanvas.width, legoCanvas.height);
-          const brickSize = 20;
+
+          const brickSize = 10; // Smaller bricks for detail
+          const brickData = ctx.getImageData(0, 0, legoCanvas.width, legoCanvas.height).data;
+
+          ctx.clearRect(0, 0, legoCanvas.width, legoCanvas.height);
+
           for (let y = 0; y < legoCanvas.height; y += brickSize) {
             for (let x = 0; x < legoCanvas.width; x += brickSize) {
-              const data = ctx.getImageData(x, y, brickSize, brickSize).data;
-              let r = 0, g = 0, b = 0;
-              for (let i = 0; i < data.length; i += 4) {
-                r += data[i];
-                g += data[i+1];
-                b += data[i+2];
+              let r = 0, g = 0, b = 0, count = 0;
+              for (let dy = 0; dy < brickSize; dy++) {
+                for (let dx = 0; dx < brickSize; dx++) {
+                  const idx = ((y + dy) * legoCanvas.width + (x + dx)) * 4;
+                  r += brickData[idx];
+                  g += brickData[idx + 1];
+                  b += brickData[idx + 2];
+                  count++;
+                }
               }
-              r = Math.round(r / (data.length/4));
-              g = Math.round(g / (data.length/4));
-              b = Math.round(b / (data.length/4));
+              r = Math.round(r / count);
+              g = Math.round(g / count);
+              b = Math.round(b / count);
 
               ctx.fillStyle = `rgb(${r},${g},${b})`;
               ctx.fillRect(x, y, brickSize, brickSize);
 
-              ctx.fillStyle = 'rgba(0,0,0,0.3)';
-              ctx.fillRect(x, y + brickSize - 4, brickSize, 4);
-              ctx.fillStyle = 'rgba(255,255,255,0.2)';
-              ctx.fillRect(x + 2, y + 2, brickSize - 4, 4);
+              // Add Lego-style shadow/highlight
+              ctx.fillStyle = 'rgba(0,0,0,0.4)';
+              ctx.fillRect(x, y + brickSize - 3, brickSize, 3);
+              ctx.fillStyle = 'rgba(255,255,255,0.3)';
+              ctx.fillRect(x + 2, y + 2, brickSize - 4, 3);
             }
           }
         };
-        img.src = randomMeme;
+        img.src = imgSrc;
       }
 
       legoButton.addEventListener('click', legoify);
       legoify(); // Auto-load first meme
     }
+  </script>
 
-    // Pixel / Voxel Drop (grid fall + bounce)
+  <!-- Pixel / Voxel Drop Demo -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.min.js"></script>
+  <script>
     const voxelButton = document.getElementById('voxel-button');
     const voxelContainer = document.getElementById('voxel-container');
     if (voxelButton && voxelContainer) {
@@ -457,8 +466,10 @@
 
       initVoxel();
       voxelButton.addEventListener('click', shatterImage);
-      shatterImage(); // Auto-load first
+      shatterImage(); // Auto-load first meme
     }
+  </script>
+      
   </script>
 </body>
 </html>
