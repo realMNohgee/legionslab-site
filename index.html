@@ -159,22 +159,23 @@
     introDrip();
   </script>
 
-  <!-- JS for Particle Demo (confined to box) -->
+  <!-- JS for Particle Demo (responsive + touch support) -->
   <script>
+    const particlesDemo = document.getElementById('particles-demo');
     const particlesCanvas = document.getElementById('particles-canvas');
-    if (particlesCanvas) {
+    if (particlesDemo && particlesCanvas) {
       function resizeParticles() {
-        const rect = particlesCanvas.parentElement.getBoundingClientRect();
+        const rect = particlesDemo.getBoundingClientRect();
         particlesCanvas.width = rect.width;
         particlesCanvas.height = rect.height;
       }
 
       window.addEventListener('resize', resizeParticles);
-      resizeParticles();
+      resizeParticles();  // Initial size
 
       const ctx = particlesCanvas.getContext('2d');
       let particles = [];
-      const mouse = { x: null, y: null };
+      const touch = { x: null, y: null };
 
       class Particle {
         constructor() {
@@ -187,9 +188,9 @@
         update() {
           this.x += this.speedX;
           this.y += this.speedY;
-          if (mouse.x && mouse.y) {
-            const dx = mouse.x - this.x;
-            const dy = mouse.y - this.y;
+          if (touch.x && touch.y) {
+            const dx = touch.x - this.x;
+            const dy = touch.y - this.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < 100) {
               this.x += dx * 0.05;
@@ -211,7 +212,7 @@
 
       function initParticles() {
         particles = [];
-        const count = Math.floor(particlesCanvas.width * particlesCanvas.height / 3000);
+        const count = Math.floor(particlesCanvas.width * particlesCanvas.height / 3000); // Density based on size
         for (let i = 0; i < count; i++) particles.push(new Particle());
       }
 
@@ -226,10 +227,31 @@
       }
       animate();
 
+      // Mouse support
       particlesCanvas.addEventListener('mousemove', e => {
         const rect = particlesCanvas.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
+        touch.x = e.clientX - rect.left;
+        touch.y = e.clientY - rect.top;
+      });
+
+      // Touch support (average multiple fingers)
+      particlesCanvas.addEventListener('touchmove', e => {
+        e.preventDefault(); // Prevent scrolling
+        if (e.touches.length > 0) {
+          let sumX = 0, sumY = 0;
+          for (let touch of e.touches) {
+            const rect = particlesCanvas.getBoundingClientRect();
+            sumX += touch.clientX - rect.left;
+            sumY += touch.clientY - rect.top;
+          }
+          touch.x = sumX / e.touches.length;
+          touch.y = sumY / e.touches.length;
+        }
+      });
+
+      particlesCanvas.addEventListener('touchend', () => {
+        touch.x = null;
+        touch.y = null;
       });
     }
   </script>
