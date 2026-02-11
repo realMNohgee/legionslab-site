@@ -107,20 +107,21 @@
     </p>
   </footer>
 
-  <!-- JS for Intro Pill Choice + Intro Drip -->
+    <!-- Intro Pill Choice - Fixed to movie lore: Red wakes Legion, Blue trolls -->
   <script>
     const introScreen = document.getElementById('intro-screen');
     const redPill = document.getElementById('red-pill');
     const bluePill = document.getElementById('blue-pill');
 
     redPill.addEventListener('click', () => {
-      window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';  // Rickroll
-    });
-
-    bluePill.addEventListener('click', () => {
       introScreen.classList.add('hidden');
       setTimeout(() => { introScreen.style.display = 'none'; }, 1000);
     });
+
+    bluePill.addEventListener('click', () => {
+      window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';  // Rickroll - stay in the illusion
+    });
+  </script>
 
     // Intro Matrix drip
     function introDrip() {
