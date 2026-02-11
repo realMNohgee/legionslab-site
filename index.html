@@ -107,60 +107,63 @@
     </p>
   </footer>
 
-    <!-- Intro Pill Choice - Fixed to movie lore: Red wakes Legion, Blue trolls -->
+  <!-- Consolidated Scripts: Pill + Matrix Drip + Particle Demo + Terminal -->
   <script>
+    // Intro Pill Choice - Red wakes Legion (hides intro), Blue stays in illusion (Rickroll)
     const introScreen = document.getElementById('intro-screen');
-    const redPill = document.getElementById('red-pill');
-    const bluePill = document.getElementById('blue-pill');
+    if (introScreen) {
+      const redPill = document.getElementById('red-pill');
+      const bluePill = document.getElementById('blue-pill');
 
-    redPill.addEventListener('click', () => {
-      introScreen.classList.add('hidden');
-      setTimeout(() => { introScreen.style.display = 'none'; }, 1000);
-    });
+      redPill.addEventListener('click', () => {
+        introScreen.classList.add('hidden');
+        setTimeout(() => { introScreen.style.display = 'none'; }, 1000);
+      });
 
-    bluePill.addEventListener('click', () => {
-      window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';  // Rickroll - stay in the illusion
-    });
-  </script>
+      bluePill.addEventListener('click', () => {
+        window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+      });
+    }
 
-    // Intro Matrix drip
+    // Matrix Drip - Green rain on intro canvas
     function introDrip() {
       const canvas = document.getElementById('intro-matrix-bg');
-      if (canvas) {
+      if (!canvas) return;
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+      });
 
-        window.addEventListener('resize', () => {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
+      const ctx = canvas.getContext('2d');
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
+      const fontSize = 14;
+      const columns = Math.floor(canvas.width / fontSize);
+      const drops = Array.from({length: columns}, () => Math.random() * canvas.height / fontSize);
+
+      function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00ff00';
+        ctx.font = `${fontSize}px 'Courier New'`;
+
+        drops.forEach((y, x) => {
+          const text = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(text, x * fontSize, y * fontSize);
+          if (y * fontSize > canvas.height && Math.random() > 0.975) y = 0;
+          drops[x] = y + 1;
         });
-
-        const ctx = canvas.getContext('2d');
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
-        const fontSize = 14;
-        const columns = Math.floor(canvas.width / fontSize);
-        const drops = Array.from({length: columns}, () => Math.random() * canvas.height / fontSize);
-
-        function draw() {
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.fillStyle = '#00ff00';
-          ctx.font = `${fontSize}px 'Courier New'`;
-          drops.forEach((y, x) => {
-            const text = chars[Math.floor(Math.random() * chars.length)];
-            ctx.fillText(text, x * fontSize, y * fontSize);
-            if (y * fontSize > canvas.height && Math.random() > 0.975) y = 0;
-            drops[x] = y + 1;
-          });
-        }
-
-        setInterval(draw, 50);
       }
+
+      setInterval(draw, 50);
     }
-    introDrip();
+    introDrip();  // Start drip immediately
   </script>
 
-  <!-- JS for Particle Demo (responsive + touch support) -->
+  <!-- Particle Demo Script -->
   <script>
     const particlesDemo = document.getElementById('particles-demo');
     const particlesCanvas = document.getElementById('particles-canvas');
@@ -172,7 +175,7 @@
       }
 
       window.addEventListener('resize', resizeParticles);
-      resizeParticles();  // Initial size
+      resizeParticles();
 
       const ctx = particlesCanvas.getContext('2d');
       let particles = [];
@@ -213,7 +216,7 @@
 
       function initParticles() {
         particles = [];
-        const count = Math.floor(particlesCanvas.width * particlesCanvas.height / 3000); // Density based on size
+        const count = Math.floor(particlesCanvas.width * particlesCanvas.height / 3000);
         for (let i = 0; i < count; i++) particles.push(new Particle());
       }
 
@@ -228,16 +231,14 @@
       }
       animate();
 
-      // Mouse support
       particlesCanvas.addEventListener('mousemove', e => {
         const rect = particlesCanvas.getBoundingClientRect();
         touch.x = e.clientX - rect.left;
         touch.y = e.clientY - rect.top;
       });
 
-      // Touch support (average multiple fingers)
       particlesCanvas.addEventListener('touchmove', e => {
-        e.preventDefault(); // Prevent scrolling
+        e.preventDefault();
         if (e.touches.length > 0) {
           let sumX = 0, sumY = 0;
           for (let touch of e.touches) {
@@ -257,7 +258,7 @@
     }
   </script>
 
-  <!-- JS for Terminal Typing Effect (longer, looping) -->
+  <!-- Terminal Typing Effect -->
   <script>
     const terminal = document.getElementById('terminal-demo');
     if (terminal) {
@@ -298,9 +299,6 @@
     }
   </script>
 
-  <!-- JS for Glitch Text (if not already working) -->
-  <script>
-    // Glitch text (CSS animation handles it, no JS needed unless you want more)
-  </script>
+  <!-- Glitch is CSS-only, no JS needed -->
 </body>
 </html>
