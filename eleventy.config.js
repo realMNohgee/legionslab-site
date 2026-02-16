@@ -1,18 +1,27 @@
-// eleventy.config.js - Legion's minimal config for blog on top of existing site
+// eleventy.config.js - Legion's config with date filter added
 module.exports = function(eleventyConfig) {
-  // Passthrough: copy your existing assets unchanged
+  // Passthrough existing assets
   eleventyConfig.addPassthroughCopy("style.css");
   eleventyConfig.addPassthroughCopy("particles-bg.js");
 
-  // Blog collection: Markdown files tagged "post", newest first
+  // Blog collection: Markdown with "post" tag, newest first
   eleventyConfig.addCollection("posts", (collectionApi) => {
     return collectionApi.getFilteredByTag("post").sort((a, b) => b.date - a.date);
   });
 
+  // Add date filter for Nunjucks (fixes "filter not found: date")
+  eleventyConfig.addFilter("date", function(date, format = "MMM dd, yyyy") {
+    return new Date(date).toLocaleDateString("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric"
+    });
+  });
+
   return {
     dir: {
-      input: ".",          // Source = current folder
-      output: "_site",     // Build output (upload this folder)
+      input: ".",
+      output: "_site",
       includes: "_includes",
       layouts: "_includes"
     },
@@ -20,4 +29,4 @@ module.exports = function(eleventyConfig) {
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk"
   };
-}
+};
