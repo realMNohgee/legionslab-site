@@ -1,8 +1,3 @@
----
-layout: layout.njk
-title: Legion's Lab | Professional IT Problem Solvers
----
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +25,6 @@ title: Legion's Lab | Professional IT Problem Solvers
       <a href="#services">Services</a>
       <a href="#contact">Contact</a>
       <a href="#demos">Demos</a>
-      <a href="/blog/">Blog</a>
     </nav>
   </header>
 
@@ -108,74 +102,69 @@ title: Legion's Lab | Professional IT Problem Solvers
   </main>
 
   <footer>
-    <p>&copy; 2026 Legion's Lab. We are Legion. 😈 | 
+    <p>© 2026 Legion's Lab. We are Legion. 😈 | 
       <a href="https://github.com/realMNohgee/legionslab-site" target="_blank">View Source on GitHub</a>
     </p>
   </footer>
 
-  <!-- Consolidated Scripts: Pill + Matrix Drip + Particle Demo + Terminal -->
+  <!-- JS for Intro Pill Choice + Intro Drip -->
   <script>
-    // Intro Pill Choice - Red wakes Legion (hides intro), Blue stays in illusion (Rickroll)
     const introScreen = document.getElementById('intro-screen');
-    if (introScreen) {
-      const redPill = document.getElementById('red-pill');
-      const bluePill = document.getElementById('blue-pill');
+    const redPill = document.getElementById('red-pill');
+    const bluePill = document.getElementById('blue-pill');
 
-      redPill.addEventListener('click', () => {
-        introScreen.classList.add('hidden');
-        setTimeout(() => { introScreen.style.display = 'none'; }, 1000);
-      });
+    redPill.addEventListener('click', () => {
+      window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';  // Rickroll
+    });
 
-      bluePill.addEventListener('click', () => {
-        window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-      });
-    }
+    bluePill.addEventListener('click', () => {
+      introScreen.classList.add('hidden');
+      setTimeout(() => { introScreen.style.display = 'none'; }, 1000);
+    });
 
-    // Matrix Drip - Green rain on intro canvas
+    // Intro Matrix drip
     function introDrip() {
       const canvas = document.getElementById('intro-matrix-bg');
-      if (!canvas) return;
-
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      window.addEventListener('resize', () => {
+      if (canvas) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-      });
 
-      const ctx = canvas.getContext('2d');
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
-      const fontSize = 14;
-      const columns = Math.floor(canvas.width / fontSize);
-      const drops = Array.from({length: columns}, () => Math.random() * canvas.height / fontSize);
-
-      function draw() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#00ff00';
-        ctx.font = `${fontSize}px 'Courier New'`;
-
-        drops.forEach((y, x) => {
-          const text = chars[Math.floor(Math.random() * chars.length)];
-          ctx.fillText(text, x * fontSize, y * fontSize);
-          if (y * fontSize > canvas.height && Math.random() > 0.975) y = 0;
-          drops[x] = y + 1;
+        window.addEventListener('resize', () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
         });
-      }
 
-      setInterval(draw, 50);
+        const ctx = canvas.getContext('2d');
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:\'",./?`~';
+        const fontSize = 14;
+        const columns = Math.floor(canvas.width / fontSize);
+        const drops = Array.from({length: columns}, () => Math.random() * canvas.height / fontSize);
+
+        function draw() {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = '#00ff00';
+          ctx.font = `${fontSize}px 'Courier New'`;
+          drops.forEach((y, x) => {
+            const text = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillText(text, x * fontSize, y * fontSize);
+            if (y * fontSize > canvas.height && Math.random() > 0.975) y = 0;
+            drops[x] = y + 1;
+          });
+        }
+
+        setInterval(draw, 50);
+      }
     }
-    introDrip();  // Start drip immediately
+    introDrip();
   </script>
 
-  <!-- Particle Demo Script -->
+  <!-- JS for Particle Demo (confined to box) -->
   <script>
-    const particlesDemo = document.getElementById('particles-demo');
     const particlesCanvas = document.getElementById('particles-canvas');
-    if (particlesDemo && particlesCanvas) {
+    if (particlesCanvas) {
       function resizeParticles() {
-        const rect = particlesDemo.getBoundingClientRect();
+        const rect = particlesCanvas.parentElement.getBoundingClientRect();
         particlesCanvas.width = rect.width;
         particlesCanvas.height = rect.height;
       }
@@ -185,7 +174,7 @@ title: Legion's Lab | Professional IT Problem Solvers
 
       const ctx = particlesCanvas.getContext('2d');
       let particles = [];
-      const touch = { x: null, y: null };
+      const mouse = { x: null, y: null };
 
       class Particle {
         constructor() {
@@ -198,9 +187,9 @@ title: Legion's Lab | Professional IT Problem Solvers
         update() {
           this.x += this.speedX;
           this.y += this.speedY;
-          if (touch.x && touch.y) {
-            const dx = touch.x - this.x;
-            const dy = touch.y - this.y;
+          if (mouse.x && mouse.y) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < 100) {
               this.x += dx * 0.05;
@@ -239,32 +228,13 @@ title: Legion's Lab | Professional IT Problem Solvers
 
       particlesCanvas.addEventListener('mousemove', e => {
         const rect = particlesCanvas.getBoundingClientRect();
-        touch.x = e.clientX - rect.left;
-        touch.y = e.clientY - rect.top;
-      });
-
-      particlesCanvas.addEventListener('touchmove', e => {
-        e.preventDefault();
-        if (e.touches.length > 0) {
-          let sumX = 0, sumY = 0;
-          for (let touch of e.touches) {
-            const rect = particlesCanvas.getBoundingClientRect();
-            sumX += touch.clientX - rect.left;
-            sumY += touch.clientY - rect.top;
-          }
-          touch.x = sumX / e.touches.length;
-          touch.y = sumY / e.touches.length;
-        }
-      });
-
-      particlesCanvas.addEventListener('touchend', () => {
-        touch.x = null;
-        touch.y = null;
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
       });
     }
   </script>
 
-  <!-- Terminal Typing Effect -->
+  <!-- JS for Terminal Typing Effect (longer, looping) -->
   <script>
     const terminal = document.getElementById('terminal-demo');
     if (terminal) {
@@ -304,7 +274,5 @@ title: Legion's Lab | Professional IT Problem Solvers
       typeLine();
     }
   </script>
-
-  <!-- Glitch is CSS-only, no JS needed -->
 </body>
 </html>
