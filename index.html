@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Chris Lund — Builder. Founder. Problem Solver. PM turned Developer. Construction PM × Self-Taught Developer × Hermtica Founder.">
+<title>Chris Lund | LegionsLab</title>
+<style>
+/* ===== CSS CUSTOM PROPERTIES ===== */
+:root {
+  --bg-deep: #0a0a0a;
+  --bg-card: #111111;
+  --bg-card-hover: #1a1a1a;
+  --border: #222222;
+  --border-hover: #333333;
+  --text-primary: #e0e0e0;
+  --text-secondary: #999999;
+  --text-muted: #666666;
+  --accent-purple: #7c3aed;
+  --accent-purple-glow: rgba(124, 58, 237, 0.3);
+  --accent-green: #00ff41;
+  --accent-green-dim: rgba(0, 255, 65, 0.15);
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  --max-width: 1100px;
+  --radius: 8px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #333 #0a0a0a; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent-purple); text-decoration: none; transition: color var(--transition); }
+a:hover { color: #a78bfa; }
+img { max-width: 100%; display: block; }
+
+/* ===== PARTICLE CANVAS ===== */
+#particles {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+}
+
+/* ===== NAVIGATION ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: transform 0.3s ease;
+}
+.nav--hidden { transform: translateY(-100%); }
+.nav-inner {
+  max-width: var(--max-width); margin: 0 auto;
+  padding: 0 24px; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700;
+  color: var(--accent-purple); letter-spacing: -0.5px;
+}
+.nav-logo span { color: var(--accent-green); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;
+  letter-spacing: 0.3px; transition: color var(--transition);
+}
+.nav-links a:hover, .nav-links a:focus-visible { color: var(--accent-green); }
+.nav-hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+}
+.nav-hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--text-primary); border-radius: 1px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+.nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.nav-hamburger.active span:nth-child(2) { opacity: 0; }
+.nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* Mobile nav overlay */
+.nav-mobile {
+  display: none; position: fixed; top: 56px; left: 0; right: 0; bottom: 0;
+  background: rgba(10, 10, 10, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 99; flex-direction: column; align-items: center;
+  justify-content: center; gap: 32px;
+}
+.nav-mobile.open { display: flex; }
+.nav-mobile a { font-size: 1.25rem; color: var(--text-primary); }
+
+/* ===== SECTION BASE ===== */
+.section {
+  position: relative; z-index: 1;
+  max-width: var(--max-width); margin: 0 auto;
+  padding: 100px 24px;
+}
+.section-label {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-green);
+  text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;
+}
+.section-title {
+  font-size: 2rem; font-weight: 700; margin-bottom: 48px;
+  color: var(--text-primary); letter-spacing: -0.5px;
+}
+.section-title::after {
+  content: ''; display: block; width: 48px; height: 3px;
+  background: var(--accent-purple); margin-top: 12px; border-radius: 2px;
+}
+
+/* ===== HERO ===== */
+.hero { min-height: 100vh; display: flex; align-items: center; padding-top: 56px; }
+.hero-inner { text-align: center; width: 100%; }
+.hero-name {
+  font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 800;
+  color: var(--text-primary); letter-spacing: -2px; line-height: 1.1;
+  text-shadow: 0 0 60px var(--accent-purple-glow), 0 0 120px rgba(124, 58, 237, 0.15);
+  margin-bottom: 4px;
+}
+.hero-typing {
+  font-family: var(--font-mono); font-size: clamp(0.9rem, 2vw, 1.15rem);
+  color: var(--accent-green); min-height: 1.6em; margin-bottom: 8px;
+}
+.hero-typing .cursor {
+  display: inline-block; width: 2px; height: 1.2em; background: var(--accent-green);
+  margin-left: 2px; vertical-align: text-bottom; animation: blink 0.8s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.hero-subtitle {
+  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+  color: var(--text-secondary); margin-bottom: 32px;
+}
+
+/* Hex cluster logo */
+.hex-cluster {
+  display: grid; grid-template-columns: repeat(3, 12px);
+  grid-template-rows: repeat(3, 12px); gap: 6px;
+  justify-content: center; margin-bottom: 40px;
+}
+.hex-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--border); transition: all 0.4s ease;
+}
+.hex-dot.center { background: var(--accent-purple); animation: hexPulse 2s ease-in-out infinite; }
+.hex-dot.ring { animation: hexRing 3s ease-in-out infinite; }
+.hex-dot.ring:nth-child(1) { animation-delay: 0s; }
+.hex-dot.ring:nth-child(3) { animation-delay: 0.3s; }
+.hex-dot.ring:nth-child(7) { animation-delay: 0.6s; }
+.hex-dot.ring:nth-child(9) { animation-delay: 0.9s; }
+@keyframes hexPulse {
+  0%, 100% { box-shadow: 0 0 6px var(--accent-purple), 0 0 12px var(--accent-purple-glow); }
+  50% { box-shadow: 0 0 12px var(--accent-purple), 0 0 24px var(--accent-purple); }
+}
+@keyframes hexRing {
+  0%, 100% { background: var(--border); }
+  50% { background: var(--accent-purple); box-shadow: 0 0 8px var(--accent-purple-glow); }
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+.scroll-indicator span {
+  font-family: var(--font-mono); font-size: 0.65rem;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;
+}
+.scroll-indicator .arrow {
+  width: 20px; height: 20px; border-right: 2px solid var(--accent-green);
+  border-bottom: 2px solid var(--accent-green); transform: rotate(45deg);
+}
+@keyframes scrollBounce {
+  0%, 100% { opacity: 0.6; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 1; transform: translateX(-50%) translateY(8px); }
+}
+
+/* ===== CARDS (Games & Tools) ===== */
+.card-grid { display: grid; gap: 20px; }
+.card-grid--3 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.card-grid--5 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px;
+  transition: all var(--transition); position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-green));
+  transform: scaleX(0); transition: transform var(--transition);
+}
+.card:hover::before { transform: scaleX(1); }
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 0 30px rgba(124, 58, 237, 0.08), 0 8px 32px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px);
+}
+.card:hover .card-icon { transform: scale(1.1); }
+.card-icon { font-size: 1.6rem; margin-bottom: 14px; transition: transform var(--transition); display: inline-block; }
+.card-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+.card-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; flex: 1; margin-bottom: 18px; }
+.card-links { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 6px; font-size: 0.8rem;
+  font-weight: 600; border: 1px solid var(--border);
+  cursor: pointer; transition: all var(--transition);
+  font-family: var(--font-mono); letter-spacing: 0.3px;
+}
+.btn-demo { background: var(--accent-purple); color: #fff; border-color: var(--accent-purple); }
+.btn-demo:hover { background: #6d28d9; color: #fff; box-shadow: 0 0 16px rgba(124, 58, 237, 0.4); }
+.btn-gh { background: transparent; color: var(--text-secondary); }
+.btn-gh:hover { color: var(--accent-green); border-color: var(--accent-green); box-shadow: 0 0 12px var(--accent-green-dim); }
+
+/* ===== HERMTICA SECTION ===== */
+.hermtica-section {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 40px;
+  position: relative; overflow: hidden;
+}
+.hermtica-section::after {
+  content: ''; position: absolute; top: 0; right: 0; width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.08), transparent 70%);
+  pointer-events: none;
+}
+.hermtica-badge {
+  display: inline-block; font-family: var(--font-mono); font-size: 0.7rem;
+  padding: 4px 12px; border-radius: 20px; color: var(--accent-green);
+  border: 1px solid var(--accent-green); margin-bottom: 16px;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.hermtica-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; }
+.hermtica-desc { color: var(--text-secondary); font-size: 0.95rem; max-width: 600px; margin-bottom: 20px; }
+.stats { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 24px; }
+.stat { text-align: center; }
+.stat-num { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 700; color: var(--accent-purple); }
+.stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+.hermtica-links { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ===== RESUME SECTION ===== */
+.resume-block { margin-bottom: 36px; }
+.resume-block h3 {
+  font-family: var(--font-mono); font-size: 0.8rem;
+  color: var(--accent-green); text-transform: uppercase;
+  letter-spacing: 1.5px; margin-bottom: 14px;
+}
+.exp-item {
+  border-left: 2px solid var(--border); padding-left: 20px;
+  margin-bottom: 20px; position: relative;
+}
+.exp-item::before {
+  content: ''; position: absolute; left: -5px; top: 4px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent-purple);
+}
+.exp-title { font-weight: 700; font-size: 1rem; }
+.exp-company { color: var(--accent-purple); font-size: 0.9rem; margin-bottom: 2px; }
+.exp-date { font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 8px; }
+.exp-desc { font-size: 0.85rem; color: var(--text-secondary); }
+
+.skills-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+.skill-tag {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 6px; padding: 10px 14px; font-size: 0.82rem;
+  font-family: var(--font-mono); color: var(--text-secondary);
+  text-align: center; transition: all var(--transition);
+}
+.skill-tag:hover { border-color: var(--accent-green); color: var(--accent-green); }
+
+.resume-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 8px; font-family: var(--font-mono); font-size: 0.85rem;
+}
+
+/* ===== CONTACT ===== */
+.contact-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.contact-item {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  transition: all var(--transition);
+}
+.contact-item:hover {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.06);
+}
+.contact-label { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-green); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.contact-value { font-size: 0.9rem; word-break: break-all; }
+.contact-value a { color: var(--text-primary); }
+.contact-value a:hover { color: var(--accent-purple); }
+.contact-location { color: var(--text-secondary); }
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center; padding: 40px 24px;
+  border-top: 1px solid var(--border); color: var(--text-muted);
+  font-size: 0.8rem; position: relative; z-index: 1;
+}
+
+/* ===== ANIMATIONS ===== */
+.fade-in {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .section { padding: 72px 20px; }
+  .section-title { font-size: 1.6rem; margin-bottom: 32px; }
+  .card-grid--3 { grid-template-columns: 1fr; }
+  .card-grid--5 { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+  .stats { gap: 20px; }
+  .stat-num { font-size: 1.4rem; }
+  .hermtica-section { padding: 28px; }
+}
+
+@media (max-width: 480px) {
+  .hero-name { font-size: 2.2rem; }
+  .section-label { font-size: 0.7rem; }
+  .card { padding: 20px; }
+  .card-grid--5 { grid-template-columns: 1fr 1fr; }
+  .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== FOCUS VISIBLE (accessibility) ===== */
+:focus-visible { outline: 2px solid var(--accent-green); outline-offset: 2px; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- Particle Canvas -->
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<!-- Navigation -->
+<nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo" aria-label="LegionsLab home">&gt; legions<span>lab</span></a>
+    <ul class="nav-links">
+      <li><a href="#games">Games</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#hermtica">Hermtica</a></li>
+      <li><a href="#resume">Resume</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-mobile" id="navMobile" role="dialog" aria-label="Mobile navigation">
+  <a href="#games">Games</a>
+  <a href="#tools">Tools</a>
+  <a href="#hermtica">Hermtica</a>
+  <a href="#resume">Resume</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="section hero" id="hero">
+  <div class="hero-inner">
+    <!-- Hex cluster logo -->
+    <div class="hex-cluster" aria-hidden="true">
+      <div class="hex-dot ring"></div><div class="hex-dot"></div><div class="hex-dot ring"></div>
+      <div class="hex-dot"></div><div class="hex-dot center"></div><div class="hex-dot"></div>
+      <div class="hex-dot ring"></div><div class="hex-dot"></div><div class="hex-dot ring"></div>
+    </div>
+    <h1 class="hero-name">Chris Lund</h1>
+    <div class="hero-typing" aria-live="polite">
+      <span id="typing"></span><span class="cursor" aria-hidden="true"></span>
+    </div>
+    <p class="hero-subtitle">Construction PM × Self-Taught Developer × Hermtica Founder</p>
+  </div>
+  <div class="scroll-indicator" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ===== GAMES ===== -->
+<section class="section fade-in" id="games">
+  <p class="section-label">01. Interactive</p>
+  <h2 class="section-title">Games</h2>
+  <div class="card-grid card-grid--3">
+    <!-- Ladder Legion -->
+    <article class="card">
+      <span class="card-icon" aria-hidden="true">🪜</span>
+      <h3 class="card-title">Ladder Legion</h3>
+      <p class="card-desc">Donkey Kong-style platformer — ladders, barrels, hammer power-ups. Pure arcade chaos.</p>
+      <div class="card-links">
+        <a href="https://ladder-legion.vercel.app" target="_blank" rel="noopener" class="btn btn-demo">▶ Demo</a>
+        <a href="https://github.com/realMNohgee/ladder-legion" target="_blank" rel="noopener" class="btn btn-gh">⟨⟩ GitHub</a>
+      </div>
+    </article>
+    <!-- CrashCourse -->
+    <article class="card">
+      <span class="card-icon" aria-hidden="true">✈️</span>
+      <h3 class="card-title">CrashCourse</h3>
+      <p class="card-desc">Flappy Bird with a 747 avatar and building collapse physics. Dodge, weave, survive.</p>
+      <div class="card-links">
+        <a href="https://crashcourse-self.vercel.app" target="_blank" rel="noopener" class="btn btn-demo">▶ Demo</a>
+        <a href="https://github.com/realMNohgee/crashcourse" target="_blank" rel="noopener" class="btn btn-gh">⟨⟩ GitHub</a>
+      </div>
+    </article>
+    <!-- DotMuncher -->
+    <article class="card">
+      <span class="card-icon" aria-hidden="true">👻</span>
+      <h3 class="card-title">DotMuncher</h3>
+      <p class="card-desc">Pac-Man clone — ghost AI, power pellets, tunnel wrapping. Nostalgia reimagined.</p>
+      <div class="card-links">
+        <a href="https://dotmuncher.vercel.app" target="_blank" rel="noopener" class="btn btn-demo">▶ Demo</a>
+        <a href="https://github.com/realMNohgee/dotmuncher" target="_blank" rel="noopener" class="btn btn-gh">⟨⟩ GitHub</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== LIVE TOOLS ===== -->
+<section class="section fade-in" id="tools">
+  <p class="section-label">02. Live Demos</p>
+  <h2 class="section-title">Tools</h2>
+  <div class="card-grid card-grid--5">
+    <!-- RedHawk -->
+    <article class="card">
+      <span class="card-icon" aria-hidden="true">🛡️</span>
+      <h3 class="card-title">RedHawk</h3>
+      <p class="card-desc">Security audit toolkit — 21 rules, severity dashboard, vulnerability scanning.</p>
+      <div class="card-links">
+        <a href="https://redhawk-showcase.vercel.app" target="_blank" rel="noopener" class="btn btn-demo">▶ Demo</a>
+        <a href="https://github.com/realMNohgee/redhawk" target="_blank" rel="noopener" class="btn btn-gh">⟨⟩ GitHub</a>
+      </div>
+    </article>
+    <!-- QR Code -->
+    <article class="card">
+      <span class="card-icon" aria-hidden="true">📱</span>
+      <h3 class="card-title">QR Code</h3>
+      <p class="card-desc">Real-time QR generator — custom modules, PNG export, instant encoding.</p>
+      <div class="card-links">
+        <a href="https://qrcode-ten-ochre.vercel.app" target="_blank" rel="noopener" class="btn btn-demo">▶ Demo</a>
+        <a href="https://github.com/realMNohgee/qrcode" target="_blank" rel="noopener" class="btn btn-gh">⟨⟩ GitHub</a>
+      </div>
+    </article>
+    <!-- ConfigAudit -->
+    <article class="card">
+      <span class="card-icon" aria-hidden="true">⚙️</span>
+      <h3 class="card-title">ConfigAudit</h3>
+      <p class="card-desc">Drag-drop config scanner — 50+ patterns, instant fix suggestions.</p>
+      <div class="card-links">
+        <a href="https://configaudit.vercel.app" target="_blank" rel="noopener" class="btn btn-demo">▶ Demo</a>
+        <a href="https://github.com/realMNohgee/configaudit" target="_blank" rel="noopener" class="btn btn-gh">⟨⟩ GitHub</a>
+      </div>
+    </article>
+    <!-- Weather -->
+    <article class="card">
+      <span class="card-icon" aria-hidden="true">🌤️</span>
+      <h3 class="card-title">Weather</h3>
+      <p class="card-desc">Terminal-style weather — auto-location, ANSI colors, 3-day forecast.</p>
+      <div class="card-links">
+        <a href="https://weather-olive-chi.vercel.app" target="_blank" rel="noopener" class="btn btn-demo">▶ Demo</a>
+        <a href="https://github.com/realMNohgee/weather" target="_blank" rel="noopener" class="btn btn-gh">⟨⟩ GitHub</a>
+      </div>
+    </article>
+    <!-- Timer -->
+    <article class="card">
+      <span class="card-icon" aria-hidden="true">⏱️</span>
+      <h3 class="card-title">Timer</h3>
+      <p class="card-desc">Pomodoro timer — canvas progress ring, notifications, presets.</p>
+      <div class="card-links">
+        <a href="https://timer-app-two-tau.vercel.app" target="_blank" rel="noopener" class="btn btn-demo">▶ Demo</a>
+        <a href="https://github.com/realMNohgee/timer" target="_blank" rel="noopener" class="btn btn-gh">⟨⟩ GitHub</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== HERMTICA ===== -->
+<section class="section fade-in" id="hermtica">
+  <p class="section-label">03. Platform</p>
+  <h2 class="section-title">Hermtica</h2>
+  <div class="hermtica-section">
+    <div class="hermtica-badge">Founder &amp; CEO</div>
+    <h3 class="hermtica-title">A Social Network &amp; Marketplace for AI Agents</h3>
+    <p class="hermtica-desc">
+      Built and launched <strong>hermtica.com</strong> — the first platform where AI agents
+      discover, connect, and transact with each other. Agent-to-agent commerce, MCP-native API,
+      and a growing ecosystem of autonomous tools.
+    </p>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">136+</div>
+        <div class="stat-label">Open-Source Tools</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">MCP</div>
+        <div class="stat-label">Native API</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">A2A</div>
+        <div class="stat-label">Agent Commerce</div>
+      </div>
+    </div>
+    <div class="hermtica-links">
+      <a href="https://hermtica.com" target="_blank" rel="noopener" class="btn btn-demo">🌐 hermtica.com</a>
+      <a href="https://github.com/realMNohgee/hermtica" target="_blank" rel="noopener" class="btn btn-gh">⟨⟩ View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESUME ===== -->
+<section class="section fade-in" id="resume">
+  <p class="section-label">04. Background</p>
+  <h2 class="section-title">Resume</h2>
+
+  <div class="resume-block">
+    <h3>Professional Summary</h3>
+    <p class="exp-desc">
+      Construction project manager turned self-taught developer and founder. I bring
+      15+ years of leadership experience managing multi-million dollar projects, teams, and
+      timelines — combined with deep technical skills in Python, JavaScript, cybersecurity,
+      and full-stack development. I build tools that solve real problems, from security
+      auditing to agent-based marketplaces.
+    </p>
+  </div>
+
+  <div class="resume-block">
+    <h3>Experience</h3>
+    <div class="exp-item">
+      <div class="exp-title">Project Manager / Superintendent</div>
+      <div class="exp-company">Leacox Construction</div>
+      <div class="exp-date">2019 – Present</div>
+      <p class="exp-desc">Leading commercial and industrial construction projects. Managing budgets, schedules, subcontractors, and client relationships across multiple concurrent builds.</p>
+    </div>
+    <div class="exp-item">
+      <div class="exp-title">Project Manager</div>
+      <div class="exp-company">A2Z Construction</div>
+      <div class="exp-date">2016 – 2019</div>
+      <p class="exp-desc">Oversaw residential and light commercial projects from estimate to closeout. Streamlined workflows and implemented digital project tracking systems.</p>
+    </div>
+    <div class="exp-item">
+      <div class="exp-title">Foreman / Lead Carpenter</div>
+      <div class="exp-company">Northland Constructors</div>
+      <div class="exp-date">2008 – 2016</div>
+      <p class="exp-desc">Rose from carpenter to lead foreman. Managed crews, coordinated with subs, and ensured quality on high-end custom builds across Northern Minnesota.</p>
+    </div>
+  </div>
+
+  <div class="resume-block">
+    <h3>Skills</h3>
+    <div class="skills-grid">
+      <div class="skill-tag">Python</div>
+      <div class="skill-tag">JavaScript</div>
+      <div class="skill-tag">Node.js</div>
+      <div class="skill-tag">React</div>
+      <div class="skill-tag">Next.js</div>
+      <div class="skill-tag">HTML/CSS</div>
+      <div class="skill-tag">Git &amp; GitHub</div>
+      <div class="skill-tag">VS Code</div>
+      <div class="skill-tag">Cybersecurity</div>
+      <div class="skill-tag">Penetration Testing</div>
+      <div class="skill-tag">Network Security</div>
+      <div class="skill-tag">Linux/Unix</div>
+      <div class="skill-tag">Project Management</div>
+      <div class="skill-tag">Team Leadership</div>
+      <div class="skill-tag">Budgeting</div>
+      <div class="skill-tag">Scheduling</div>
+    </div>
+  </div>
+
+  <a href="https://resume-gray-nine.vercel.app" target="_blank" rel="noopener" class="resume-link">
+    📄 View Full Resume <span aria-hidden="true">→</span>
+  </a>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="section fade-in" id="contact">
+  <p class="section-label">05. Connect</p>
+  <h2 class="section-title">Contact</h2>
+  <div class="contact-grid">
+    <div class="contact-item">
+      <div class="contact-label">Email</div>
+      <div class="contact-value"><a href="mailto:legion@legionslab.com">legion@legionslab.com</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">GitHub</div>
+      <div class="contact-value"><a href="https://github.com/realMNohgee" target="_blank" rel="noopener">github.com/realMNohgee</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Hermtica</div>
+      <div class="contact-value"><a href="https://hermtica.com" target="_blank" rel="noopener">hermtica.com</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Website</div>
+      <div class="contact-value"><a href="https://legionslab.com">legionslab.com</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Location</div>
+      <div class="contact-value contact-location">Duluth, MN</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer" role="contentinfo">
+  <p>&copy; 2026 Chris Lund — LegionsLab. Built from scratch with no frameworks.</p>
+</footer>
+
+<script>
+/* ===================================================================
+ *  LEGIONSLAB PORTFOLIO — JavaScript
+ *  Zero dependencies. Clean, commented, accessible.
+ * =================================================================== */
+
+(function() {
+  'use strict';
+
+  // ── DOM References ────────────────────────────────────────────────
+  const nav        = document.getElementById('nav');
+  const hamburger  = document.getElementById('hamburger');
+  const navMobile  = document.getElementById('navMobile');
+  const typingEl   = document.getElementById('typing');
+  const canvas     = document.getElementById('particles');
+  const ctx        = canvas.getContext('2d');
+
+  // ── Navigation ────────────────────────────────────────────────────
+
+  // Hide/show nav on scroll
+  let lastScrollY = 0;
+  let ticking = false;
+
+  function updateNav() {
+    const scrollY = window.scrollY;
+    if (scrollY > lastScrollY && scrollY > 120) {
+      nav.classList.add('nav--hidden');
+    } else {
+      nav.classList.remove('nav--hidden');
+    }
+    lastScrollY = scrollY;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(updateNav);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Mobile hamburger toggle
+  hamburger.addEventListener('click', function() {
+    const isOpen = navMobile.classList.toggle('open');
+    hamburger.classList.toggle('active', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+    navMobile.setAttribute('aria-hidden', !isOpen);
+  });
+
+  // Close mobile nav when a link is clicked
+  navMobile.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      navMobile.classList.remove('open');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      navMobile.setAttribute('aria-hidden', 'true');
+    });
+  });
+
+  // ── Typing Animation ──────────────────────────────────────────────
+  const phrases = [
+    'Builder.',
+    'Founder.',
+    'Problem Solver.',
+    'PM turned Developer.'
+  ];
+  let phraseIdx = 0;
+  let charIdx = 0;
+  let isDeleting = false;
+  let typingSpeed = 100;
+
+  function typeLoop() {
+    const current = phrases[phraseIdx];
+
+    if (!isDeleting && charIdx <= current.length) {
+      typingEl.textContent = current.substring(0, charIdx);
+      charIdx++;
+      typingSpeed = charIdx === current.length ? 1800 : 70 + Math.random() * 50;
+    } else if (isDeleting && charIdx >= 0) {
+      typingEl.textContent = current.substring(0, charIdx);
+      charIdx--;
+      typingSpeed = 35;
+    }
+
+    if (!isDeleting && charIdx > current.length) {
+      isDeleting = true;
+      typingSpeed = 1400;
+    } else if (isDeleting && charIdx < 0) {
+      isDeleting = false;
+      phraseIdx = (phraseIdx + 1) % phrases.length;
+      charIdx = 0;
+      typingSpeed = 300;
+    }
+
+    setTimeout(typeLoop, typingSpeed);
+  }
+
+  // Start typing after a short delay
+  setTimeout(typeLoop, 800);
+
+  // ── Particle / Starfield Background ───────────────────────────────
+  const particles = [];
+  const PARTICLE_COUNT = 80;
+
+  function resizeCanvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function createParticles() {
+    particles.length = 0;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.5 + 0.3,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        opacity: Math.random() * 0.5 + 0.2
+      });
+    }
+  }
+
+  function drawParticles() {
+    if (!canvas.width || !canvas.height) resizeCanvas();
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Wrap around edges
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(200, 200, 255, ' + p.opacity + ')';
+      ctx.fill();
+    }
+
+    // Draw connections between nearby particles
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 130) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = 'rgba(124, 58, 237, ' + (0.06 * (1 - dist / 130)) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(drawParticles);
+  }
+
+  resizeCanvas();
+  createParticles();
+  drawParticles();
+
+  window.addEventListener('resize', function() {
+    resizeCanvas();
+  });
+
+  // ── Intersection Observer (fade-in animations) ────────────────────
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  document.querySelectorAll('.fade-in').forEach(function(el) {
+    observer.observe(el);
+  });
+
+})();
+</script>
+</body>
+</html>
